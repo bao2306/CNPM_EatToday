@@ -37,20 +37,8 @@ Trong giai đoạn mở rộng, ứng dụng có thể tích hợp:
 - **Nutritionist (Chuyên gia dinh dưỡng):** Cung cấp dữ liệu dinh dưỡng, đưa ra khuyến nghị về chế độ ăn.  
 - **Admin (Quản trị viên):** Quản lý tài khoản, công thức mặc định và giám sát hệ thống.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- 
+##CHỖ NÀY CODE CÁI USER CASE 
 
 ## 2 Các chức năng chính  
 
@@ -83,55 +71,22 @@ Trong giai đoạn mở rộng, ứng dụng có thể tích hợp:
 - Quản lý tài khoản: Xem, tạo, sửa, xóa, khóa/mở khóa tài khoản người dùng.  
 - Quản lý công thức: Duyệt, chỉnh sửa, xóa công thức trong hệ thống.  
 - Quản lý dữ liệu: Giám sát nguyên liệu, kế hoạch ăn, shopping list.  
-- Cấu hình hệ thống: Quản lý các cài đặt chung, tham số dinh dưỡng mặc định.  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Cấu hình hệ thống: Quản lý các cài đặt chung, tham số dinh dưỡng mặc định.
+- 
+# Biểu đồ Use Case
+##CHỖ NÀY CODE CÁI USER CASE 
+# Biểu đồ Use Case chi tiết
+##CHỖ NÀY CODE CÁI USER CASE 
+# Chức năng Guest
+##CHỖ NÀY CODE CÁI USER CASE 
+# Chức năng User
+##CHỖ NÀY CODE CÁI USER CASE 
+# Chức năng Planner
+##CHỖ NÀY CODE CÁI USER CASE 
+# Chức năng Nutritionist
+##CHỖ NÀY CODE CÁI USER CASE 
+# Chức năng Admin
+##CHỖ NÀY CODE CÁI USER CASE
 
 ## Quy trình hoạt động
 
@@ -159,49 +114,118 @@ Trong giai đoạn mở rộng, ứng dụng có thể tích hợp:
    - Gửi thông báo cho cả gia đình về **menu & phân công công việc**.
 
 
+##CHỖ NÀY CODE CÁI USER CASE
+
+## III. Các Luồng Xử Lý
+
+### 1. Luồng xử lý: Tạo kế hoạch bữa ăn
+- **Diễn viên chính**: Thành viên gia đình  
+- **Mô tả**: Người dùng muốn tạo kế hoạch bữa ăn cho ngày/tuần  
+- **Luồng chính**:
+  1. Thành viên đăng nhập vào ứng dụng.  
+  2. Chọn chức năng **"Tạo kế hoạch bữa ăn"**.  
+  3. Nhập thông tin: số bữa, khẩu vị, nguyên liệu mong muốn.  
+  4. Hệ thống gợi ý thực đơn.  
+  5. Người dùng xác nhận kế hoạch.  
+  6. Hệ thống lưu kế hoạch ở trạng thái **"Chờ xác nhận"**.  
+- **Luồng phụ/ngoại lệ**:  
+  - Nếu thiếu thông tin → Hệ thống yêu cầu bổ sung.  
+  - Nếu không có món phù hợp → Hệ thống gợi ý thay thế từ kho công thức.  
+
+---
+
+### 2. Luồng xử lý: Xem và chỉnh sửa kế hoạch
+- **Diễn viên chính**: Người phụ trách nấu ăn  
+- **Mô tả**: Kiểm tra và điều chỉnh kế hoạch bữa ăn đã tạo  
+- **Luồng chính**:
+  1. Người phụ trách đăng nhập.  
+  2. Truy cập danh sách kế hoạch **"Chờ xác nhận"**.  
+  3. Xem chi tiết kế hoạch và đề xuất chỉnh sửa (món ăn, khẩu phần, chi phí).  
+  4. Lưu thay đổi.  
+  5. Với bữa quan trọng → gửi lên **Người lớn trong gia đình** duyệt.  
+- **Luồng phụ/ngoại lệ**:  
+  - Nếu nguyên liệu không có sẵn → Đánh dấu cần đi chợ.  
+  - Nếu chi phí vượt ngân sách → Cảnh báo cho người dùng.  
+
+---
+
+### 3. Luồng xử lý: Phê duyệt kế hoạch
+- **Diễn viên chính**: Người lớn trong gia đình (Bố/Mẹ/Ông/Bà)  
+- **Mô tả**: Duyệt hoặc từ chối kế hoạch bữa ăn quan trọng  
+- **Luồng chính**:
+  1. Người lớn đăng nhập.  
+  2. Truy cập danh sách kế hoạch cần phê duyệt.  
+  3. Xem thông tin: thực đơn, chi phí, nguyên liệu.  
+  4. Chọn **Phê duyệt** hoặc **Từ chối**.  
+  5. Hệ thống cập nhật trạng thái kế hoạch.  
+- **Luồng phụ/ngoại lệ**:  
+  - Nếu từ chối → hệ thống trả về trạng thái **"Cần chỉnh sửa"** và thông báo cho người phụ trách.  
+
+---
+
+### 4. Luồng xử lý: Đi chợ & chuẩn bị bữa ăn
+- **Diễn viên chính**: Người đi chợ, Người nấu ăn  
+- **Mô tả**: Sau khi kế hoạch được duyệt, các công việc được phân công  
+- **Luồng chính**:
+  1. Ứng dụng phân công công việc (ai đi chợ, ai nấu, ai dọn).  
+  2. Người đi chợ xem danh sách nguyên liệu cần mua.  
+  3. Người nấu ăn xem công thức, bước chế biến.  
+  4. Sau khi hoàn tất, đánh dấu công việc **Hoàn thành**.  
+- **Luồng phụ/ngoại lệ**:  
+  - Nếu thiếu nguyên liệu → có thể cập nhật thay thế trong ứng dụng.  
+  - Nếu có sự thay đổi đột xuất → Người dùng khác có thể nhận thay công việc.  
+
+---
+
+### 5. Luồng xử lý: Thông báo & nhắc nhở
+- **Diễn viên chính**: Hệ thống  
+- **Mô tả**: Gửi thông báo cho các thành viên  
+- **Luồng chính**:
+  1. Gửi thông báo khi có kế hoạch mới được tạo.  
+  2. Gửi thông báo khi kế hoạch được duyệt hoặc yêu cầu chỉnh sửa.  
+  3. Nhắc nhở khi đến giờ đi chợ/nấu ăn/dọn dẹp.  
+  4. Thông báo kết quả sau khi bữa ăn hoàn thành.
 
 
 
 
+  ## IV. Các trạng thái thực thể trong hệ thống
+
+### 1. Trạng thái Kế hoạch bữa ăn
+| Trạng thái | Mô tả |
+|------------|-------|
+| **Mới tạo** | Kế hoạch vừa được tạo bởi thành viên, chưa có xác nhận. |
+| **Chờ xác nhận** | Kế hoạch đang chờ người phụ trách nấu ăn hoặc người lớn trong gia đình xem xét. |
+| **Chờ phê duyệt** | Kế hoạch quan trọng đã được chỉnh sửa, đang chờ người lớn trong gia đình phê duyệt. |
+| **Đã phê duyệt** | Kế hoạch đã được phê duyệt, có thể tiến hành đi chợ và chuẩn bị bữa ăn. |
+| **Đang thực hiện** | Công việc đi chợ, nấu ăn đang diễn ra. |
+| **Hoàn thành** | Bữa ăn đã chuẩn bị xong, tất cả công việc liên quan đã hoàn tất. |
+| **Bị từ chối/Chỉnh sửa** | Kế hoạch bị từ chối hoặc yêu cầu chỉnh sửa; người tạo cần cập nhật lại. |
+
+---
+
+### 2. Trạng thái Món ăn
+| Trạng thái | Mô tả |
+|------------|-------|
+| **Đang gợi ý** | Món ăn được hệ thống gợi ý dựa trên nguyên liệu và khẩu vị. |
+| **Đang chọn** | Thành viên hoặc người phụ trách nấu ăn đang chọn món cho thực đơn. |
+| **Đã chọn** | Món ăn đã được thêm vào kế hoạch bữa ăn. |
+| **Đang chuẩn bị** | Món ăn đang được nấu/chế biến. |
+| **Hoàn thành** | Món ăn đã nấu xong và sẵn sàng phục vụ. |
+| **Bị loại bỏ** | Món ăn không được chọn hoặc bị thay thế bởi món khác. |
+
+---
+
+### 3. Trạng thái Công việc
+| Trạng thái | Mô tả |
+|------------|-------|
+| **Chưa bắt đầu** | Công việc (đi chợ, nấu, dọn) chưa thực hiện. |
+| **Đang thực hiện** | Công việc đang được tiến hành. |
+| **Hoàn thành** | Công việc đã hoàn tất. |
+| **Bị hoãn** | Công việc tạm thời bị hoãn do thiếu nguyên liệu hoặc lý do khác. |
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## III. Yêu cầu phi chức năng
+## V. Yêu cầu phi chức năng
 
 ###  Hiệu suất
 -  **Tải trang**: Thời gian tải các màn hình chính (trang kế hoạch, thực đơn, danh sách công việc) không quá **3 giây**.  
