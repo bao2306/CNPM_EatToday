@@ -61,7 +61,7 @@ Trong giai đoạn mở rộng, ứng dụng có thể tích hợp:
 
 ---
 
-### 🥗 Nutritionist (Chuyên gia dinh dưỡng) *(mở rộng)*  
+### 🥗 Nutritionist (Chuyên gia dinh dưỡng)
 - Gợi ý thực đơn thông minh: Đưa ra gợi ý dựa trên nhu cầu dinh dưỡng.  
 - Kiểm tra cân bằng dinh dưỡng: Đánh giá chế độ ăn hiện tại.  
 - Đưa ra khuyến nghị: Tư vấn cải thiện bữa ăn cho người dùng.  
