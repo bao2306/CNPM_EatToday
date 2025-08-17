@@ -113,8 +113,6 @@ Planner --|> User
 - Cấu hình hệ thống: Quản lý các cài đặt chung, tham số dinh dưỡng mặc định.
   
 # Biểu đồ Use Case
-##CHỖ NÀY CODE CÁI USER CASE 
-
 
 
 <details>
