@@ -37,9 +37,6 @@ Trong giai đoạn mở rộng, ứng dụng có thể tích hợp:
 - **Nutritionist (Chuyên gia dinh dưỡng):** Cung cấp dữ liệu dinh dưỡng, đưa ra khuyến nghị về chế độ ăn.  
 - **Admin (Quản trị viên):** Quản lý tài khoản, công thức mặc định và giám sát hệ thống.
 
-##CHỖ NÀY CODE CÁI USER CASE 
-
-
 
 <details>
 <summary> Code PlantUML</summary>
@@ -114,9 +111,52 @@ Planner --|> User
 - Quản lý công thức: Duyệt, chỉnh sửa, xóa công thức trong hệ thống.  
 - Quản lý dữ liệu: Giám sát nguyên liệu, kế hoạch ăn, shopping list.  
 - Cấu hình hệ thống: Quản lý các cài đặt chung, tham số dinh dưỡng mặc định.
-- 
+  
 # Biểu đồ Use Case
 ##CHỖ NÀY CODE CÁI USER CASE 
+
+
+
+<details>
+<summary> Code PlantUML</summary>
+
+```plantuml
+@startuml "Biểu đồ Use Case"
+
+actor Guest as "Khách vãng lai"
+actor User as "Người dùng"
+actor Expert as "Chuyên gia dinh dưỡng"
+actor Admin as "Quản trị viên"
+
+' Use Case cho Khách & Người dùng
+Guest --> (Đăng ký)
+Guest --> (Đăng nhập)
+
+User --> (Quản lý hồ sơ)
+User --> (Quản lý nguyên liệu)
+User --> (Quản lý công thức cá nhân)
+User --> (Lập kế hoạch bữa ăn)
+User --> (Danh sách mua sắm)
+User --> (Theo dõi dinh dưỡng)
+
+' Use Case cho Chuyên gia
+Expert --> (Gợi ý thực đơn thông minh)
+Expert --> (Kiểm tra cân bằng dinh dưỡng)
+Expert --> (Tư vấn chế độ ăn)
+
+' Use Case cho Quản trị viên
+Admin --> (Quản lý tài khoản)
+Admin --> (Quản lý công thức)
+Admin --> (Quản lý dữ liệu)
+Admin --> (Cấu hình hệ thống)
+
+' Quan hệ kế thừa
+User <|-- Guest
+@enduml
+```
+</details>
+
+
 # Biểu đồ Use Case chi tiết
 ##CHỖ NÀY CODE CÁI USER CASE 
 # Chức năng Guest
