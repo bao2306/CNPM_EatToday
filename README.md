@@ -37,7 +37,6 @@ Trong giai đoạn mở rộng, ứng dụng có thể tích hợp:
 - **Nutritionist (Chuyên gia dinh dưỡng):** Cung cấp dữ liệu dinh dưỡng, đưa ra khuyến nghị về chế độ ăn.  
 - **Admin (Quản trị viên):** Quản lý tài khoản, công thức mặc định và giám sát hệ thống.
 
-- 
 ##CHỖ NÀY CODE CÁI USER CASE 
 
 ## 2 Các chức năng chính  
