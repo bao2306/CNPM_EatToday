@@ -76,7 +76,7 @@ Planner --|> User
 @enduml
 ```
 </details>
-
+<img width="884" height="623" alt="Image" src="https://github.com/user-attachments/assets/79125a7d-1f7c-4e90-bdbd-0df6d47e66f7" />
 
 
 ## 2 Các chức năng chính  
@@ -153,7 +153,7 @@ User <|-- Guest
 @enduml
 ```
 </details>
-
+<img width="2863" height="2000" alt="Image" src="https://github.com/user-attachments/assets/86737810-c8d7-4feb-aa1c-d85bde3c8644" />
 
 # Biểu đồ Use Case chi tiết
 # Chức năng Guest
@@ -185,7 +185,7 @@ Guest --> UC5
 @enduml
 ```
 </details>
-
+<img width="335" height="385" alt="Image" src="https://github.com/user-attachments/assets/bcb029b1-6e38-46b7-a1e8-ef63ee346295" />
 
 # Chức năng User
 
@@ -217,7 +217,7 @@ User --> UC5
 @enduml
 ```
 </details>
-
+<img width="388" height="413" alt="Image" src="https://github.com/user-attachments/assets/34d769f4-6b56-4642-9fb2-8f432e913e96" />
 
 
 # Chức năng Planner
