@@ -79,37 +79,38 @@ Planner --|> User
 <img width="884" height="623" alt="Image" src="https://github.com/user-attachments/assets/79125a7d-1f7c-4e90-bdbd-0df6d47e66f7" />
 
 
-## 2 Các chức năng chính  
+# 2 Chức năng chính của hệ thống
 
-### 👤 Guest (Khách vãng lai)  
-- Xem công thức nấu ăn: Danh sách công thức sẵn có.  
-- Tìm kiếm công thức: Theo nguyên liệu, loại món, hoặc chế độ ăn.  
-- Xem chi tiết công thức: Nguyên liệu, cách chế biến, hình ảnh, thông tin dinh dưỡng.  
-- Đăng ký: Tạo tài khoản mới để sử dụng đầy đủ tính năng.  
-- Đăng nhập: Truy cập bằng tài khoản đã đăng ký.  
+## 👤 Guest (Khách vãng lai)
+- Xem công thức nấu ăn: Danh sách công thức sẵn có.
+- Tìm kiếm công thức: Theo nguyên liệu, loại món, hoặc chế độ ăn.
+- Xem chi tiết công thức: Nguyên liệu, cách chế biến, hình ảnh, thông tin dinh dưỡng.
+- Đăng ký: Tạo tài khoản mới để sử dụng đầy đủ tính năng.
+- Đăng nhập: Truy cập bằng tài khoản đã đăng ký.
 
----
+## 👩‍🍳 User (Người dùng)
+- Quản lý tài khoản: Cập nhật thông tin cá nhân, mật khẩu, chế độ ăn.
+- Quản lý nguyên liệu: Thêm, sửa, xóa nguyên liệu có sẵn trong gia đình.
+- Quản lý công thức cá nhân: Lưu công thức yêu thích hoặc tự tạo công thức riêng.
+- Lên kế hoạch bữa ăn: Tạo kế hoạch bữa ăn hằng ngày/tuần.
+- Sinh danh sách mua sắm: Tự động tạo shopping list từ kế hoạch bữa ăn.
+- Theo dõi dinh dưỡng: Thống kê calo, chất đạm, chất béo, vitamin,...
 
-### 👩‍🍳 User (Người dùng)  
-- Quản lý tài khoản: Cập nhật thông tin cá nhân, mật khẩu, chế độ ăn.  
-- Quản lý nguyên liệu: Thêm, sửa, xóa nguyên liệu có sẵn trong gia đình.  
-- Quản lý công thức cá nhân: Lưu công thức yêu thích hoặc tự tạo công thức riêng.  
-- Lên kế hoạch bữa ăn: Tạo kế hoạch bữa ăn hằng ngày/tuần.  
-- Sinh danh sách mua sắm: Tự động tạo shopping list từ kế hoạch bữa ăn.  
-- Theo dõi dinh dưỡng: Thống kê calo, chất đạm, chất béo, vitamin,...  
+## 🥗 Nutritionist (Chuyên gia dinh dưỡng)
+- Gợi ý thực đơn thông minh: Đưa ra gợi ý dựa trên nhu cầu dinh dưỡng.
+- Kiểm tra cân bằng dinh dưỡng: Đánh giá chế độ ăn hiện tại.
+- Đưa ra khuyến nghị: Tư vấn cải thiện bữa ăn cho người dùng.
 
----
+## 📅 Planner
+- Tạo kế hoạch bữa ăn chi tiết cho từng ngày/tuần/tháng.
+- Gợi ý thực đơn phù hợp với nguyên liệu có sẵn.
+- Đồng bộ với danh sách mua sắm và chế độ dinh dưỡng cá nhân.
+- Hỗ trợ chia sẻ kế hoạch bữa ăn với User khác.
 
-### 🥗 Nutritionist (Chuyên gia dinh dưỡng)
-- Gợi ý thực đơn thông minh: Đưa ra gợi ý dựa trên nhu cầu dinh dưỡng.  
-- Kiểm tra cân bằng dinh dưỡng: Đánh giá chế độ ăn hiện tại.  
-- Đưa ra khuyến nghị: Tư vấn cải thiện bữa ăn cho người dùng.  
-
-
-### 🛠️ Admin (Quản trị viên)  
-- Quản lý tài khoản: Xem, tạo, sửa, xóa, khóa/mở khóa tài khoản người dùng.  
-- Quản lý công thức: Duyệt, chỉnh sửa, xóa công thức trong hệ thống.  
-- Quản lý dữ liệu: Giám sát nguyên liệu, kế hoạch ăn, shopping list.  
+## 🛠️ Admin (Quản trị viên)
+- Quản lý tài khoản: Xem, tạo, sửa, xóa, khóa/mở khóa tài khoản người dùng.
+- Quản lý công thức: Duyệt, chỉnh sửa, xóa công thức trong hệ thống.
+- Quản lý dữ liệu: Giám sát nguyên liệu, kế hoạch ăn, shopping list.
 - Cấu hình hệ thống: Quản lý các cài đặt chung, tham số dinh dưỡng mặc định.
   
 # Biểu đồ Use Case
@@ -221,14 +222,87 @@ User --> UC5
 
 
 # Chức năng Planner
-##CHỖ NÀY CODE CÁI USER CASE 
+<details>
+<summary> Code PlantUML</summary>
+
+```plantuml
+@startuml
+left to right direction
+skinparam actorStyle stickman
+
+actor Planner
+
+rectangle "Ứng dụng EatToday" {
+  usecase "Tạo kế hoạch bữa ăn\n(hằng ngày/tuần/tháng)" as UC1
+  usecase "Gợi ý thực đơn\nphù hợp nguyên liệu có sẵn" as UC2
+  usecase "Đồng bộ danh sách mua sắm\nvà dinh dưỡng cá nhân" as UC3
+  usecase "Chia sẻ kế hoạch bữa ăn\nvới User khác" as UC4
+}
+
+Planner --> UC1
+Planner --> UC2
+Planner --> UC3
+Planner --> UC4
+@enduml
+
+
+```
+</details>
+<img width="393" height="377" alt="Image" src="https://github.com/user-attachments/assets/9c9665c6-0a95-4552-84c7-ae224fda0ee3" />
 # Chức năng Nutritionist
-##CHỖ NÀY CODE CÁI USER CASE 
+
+<details>
+<summary> Code PlantUML</summary>
+
+```plantuml
+@startuml
+left to right direction
+skinparam actorStyle stickman
+
+actor Nutritionist
+
+rectangle "Ứng dụng EatToday" {
+  usecase "Gợi ý thực đơn thông minh" as UC1
+  usecase "Kiểm tra cân bằng dinh dưỡng" as UC2
+  usecase "Đưa ra khuyến nghị\ncải thiện chế độ ăn" as UC3
+}
+
+Nutritionist --> UC1
+Nutritionist --> UC2
+Nutritionist --> UC3
+@enduml
+```
+</details>
+<img width="398" height="283" alt="Image" src="https://github.com/user-attachments/assets/58282732-2efc-486e-9876-88be6b553b16" />
 # Chức năng Admin
-##CHỖ NÀY CODE CÁI USER CASE
+
+<details>
+<summary> Code PlantUML</summary>
+
+```plantuml
+@startuml
+left to right direction
+skinparam actorStyle stickman
+
+actor Admin
+
+rectangle "Ứng dụng EatToday" {
+  usecase "Quản lý tài khoản\n(xem, tạo, sửa, xóa, khóa/mở khóa)" as UC1
+  usecase "Quản lý công thức\n(duyệt, chỉnh sửa, xóa)" as UC2
+  usecase "Quản lý dữ liệu\n(nguyên liệu, kế hoạch ăn, shopping list)" as UC3
+  usecase "Cấu hình hệ thống\n(cài đặt chung, tham số dinh dưỡng)" as UC4
+}
+
+Admin --> UC1
+Admin --> UC2
+Admin --> UC3
+Admin --> UC4
+@enduml
+```
+</details>
+<img width="434" height="404" alt="Image" src="https://github.com/user-attachments/assets/c0477a04-83c1-44bd-b734-683576760a34" />
 
 ## Quy trình hoạt động
-
 ###  Quy trình lên kế hoạch bữa ăn
  **Thành viên gia đình**  
    - Đăng nhập ứng dụng.  
