@@ -249,6 +249,8 @@ Planner --> UC4
 ```
 </details>
 <img width="393" height="377" alt="Image" src="https://github.com/user-attachments/assets/9c9665c6-0a95-4552-84c7-ae224fda0ee3" />
+
+
 # Chức năng Nutritionist
 
 <details>
@@ -274,6 +276,8 @@ Nutritionist --> UC3
 ```
 </details>
 <img width="398" height="283" alt="Image" src="https://github.com/user-attachments/assets/58282732-2efc-486e-9876-88be6b553b16" />
+
+
 # Chức năng Admin
 
 <details>
