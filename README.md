@@ -156,11 +156,67 @@ User <|-- Guest
 
 
 # Biểu đồ Use Case chi tiết
-##CHỖ NÀY CODE CÁI USER CASE 
 # Chức năng Guest
-##CHỖ NÀY CODE CÁI USER CASE 
+
+
+
+<summary> Code PlantUML</summary>
+
+```plantuml
+@startuml
+!theme plain
+left to right direction
+
+actor Guest as "Khách mời"
+
+rectangle "Ứng dụng EatToday" {
+    usecase "Xem gợi ý món ăn" as UC1
+    usecase "Tìm kiếm món ăn" as UC2
+    usecase "Xem chi tiết món ăn" as UC3
+    usecase "Đăng ký tài khoản" as UC4
+    usecase "Đăng nhập" as UC5
+}
+
+Guest --> UC1
+Guest --> UC2
+Guest --> UC3
+Guest --> UC4
+Guest --> UC5
+@enduml
+```
+</details>
+
+
 # Chức năng User
-##CHỖ NÀY CODE CÁI USER CASE 
+
+
+
+<details>
+<summary> Code PlantUML</summary>
+
+```plantuml
+@startuml
+!theme plain
+left to right direction
+
+actor User as "Người dùng"
+
+rectangle "Ứng dụng EatToday" {
+    usecase "Quản lý tài khoản" as UC1
+    usecase "Xem lịch sử bữa ăn" as UC2
+    usecase "Lập kế hoạch bữa ăn" as UC3
+    usecase "Thêm món ăn vào thực đơn" as UC4
+    usecase "Tạo danh sách mua sắm" as UC5
+}
+
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+@enduml
+```
+</details>
 # Chức năng Planner
 ##CHỖ NÀY CODE CÁI USER CASE 
 # Chức năng Nutritionist
