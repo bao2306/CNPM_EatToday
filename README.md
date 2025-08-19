@@ -159,7 +159,7 @@ User <|-- Guest
 # Chức năng Guest
 
 
-
+<details>
 <summary> Code PlantUML</summary>
 
 ```plantuml
@@ -217,6 +217,9 @@ User --> UC5
 @enduml
 ```
 </details>
+
+
+
 # Chức năng Planner
 ##CHỖ NÀY CODE CÁI USER CASE 
 # Chức năng Nutritionist
