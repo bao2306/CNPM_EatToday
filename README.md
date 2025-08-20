@@ -331,7 +331,38 @@ Admin --> UC4
    - Gửi thông báo cho cả gia đình về **menu & phân công công việc**.
 
 
-##CHỖ NÀY CODE CÁI USER CASE
+@startuml "Sequence - Lên kế hoạch bữa ăn"
+
+actor "Thành viên gia đình" as User
+actor "Người phụ trách nấu ăn" as Cook
+actor "Người lớn trong gia đình" as Parent
+actor "Cả gia đình" as All
+participant "Hệ thống" as System
+
+User -> System: Đăng nhập
+User -> System: Tạo kế hoạch (số bữa, món, khẩu vị...)
+System -> System: Lưu kế hoạch (Chờ xác nhận)
+System -> System: Gợi ý thực đơn
+System -> Cook: Gửi thông báo kế hoạch mới
+
+Cook -> System: Xem kế hoạch
+Cook -> System: Điều chỉnh thực đơn (nếu cần)
+alt Bữa quan trọng
+  Cook -> Parent: Gửi kế hoạch duyệt
+  Parent -> System: Xem chi phí, nguyên liệu, menu
+  alt Phê duyệt
+    Parent -> System: Phê duyệt kế hoạch
+    System -> All: Cập nhật trạng thái = "Đã phê duyệt"
+  else Yêu cầu chỉnh sửa
+    Parent -> System: Yêu cầu chỉnh sửa
+    System -> Cook: Thông báo "Cần chỉnh sửa"
+  end
+end
+
+System -> All: Gửi thông báo menu & phân công công việc
+
+@enduml
+
 
 ## III. Các Luồng Xử Lý
 
