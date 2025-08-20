@@ -76,7 +76,7 @@ Planner --|> User
 @enduml
 ```
 </details>
-<img width="884" height="623" alt="Image" src="https://github.com/user-attachments/assets/79125a7d-1f7c-4e90-bdbd-0df6d47e66f7" />
+<img> width="884" height="623" alt="Image" src="https://github.com/user-attachments/assets/79125a7d-1f7c-4e90-bdbd-0df6d47e66f7" />
 
 
 # 2 Chức năng chính của hệ thống
