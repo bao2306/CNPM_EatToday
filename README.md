@@ -368,6 +368,7 @@ System -> All: Gửi thông báo menu & phân công công việc
 @enduml
 ```
 
+
 ## III. Các Luồng Xử Lý
 
 ### 1. Luồng xử lý: Tạo kế hoạch bữa ăn
