@@ -157,6 +157,94 @@ User <|-- Guest
 <img width="2863" height="2000" alt="Image" src="https://github.com/user-attachments/assets/86737810-c8d7-4feb-aa1c-d85bde3c8644" />
 
 # Biểu đồ Use Case chi tiết
+
+<details>
+<summary> Code PlantUML</summary>
+
+```plantuml
+@startuml
+left to right direction
+
+actor Guest as " Khách vãng lai"
+actor User as " Người dùng"
+actor Expert as " Chuyên gia dinh dưỡng"
+actor Planner as " Planner"
+actor Admin as " Quản trị viên"
+
+rectangle "Ứng dụng Eat Today" {
+  
+  ' --- Guest ---
+  usecase "Xem công thức" as UC_G1
+  usecase "Tìm kiếm công thức" as UC_G2
+  usecase "Xem chi tiết công thức" as UC_G3
+  usecase "Đăng ký" as UC_G4
+  usecase "Đăng nhập" as UC_G5
+  
+  ' --- User ---
+  usecase "Quản lý tài khoản" as UC_U1
+  usecase "Quản lý nguyên liệu" as UC_U2
+  usecase "Quản lý công thức cá nhân" as UC_U3
+  usecase "Lên kế hoạch bữa ăn" as UC_U4
+  usecase "Sinh danh sách mua sắm" as UC_U5
+  usecase "Theo dõi dinh dưỡng" as UC_U6
+  
+  ' --- Expert ---
+  usecase "Gợi ý thực đơn thông minh" as UC_E1
+  usecase "Kiểm tra cân bằng dinh dưỡng" as UC_E2
+  usecase "Đưa ra khuyến nghị" as UC_E3
+  
+  ' --- Planner ---
+  usecase "Tạo kế hoạch chi tiết" as UC_P1
+  usecase "Gợi ý thực đơn theo nguyên liệu" as UC_P2
+  usecase "Đồng bộ danh sách mua sắm" as UC_P3
+  usecase "Chia sẻ kế hoạch" as UC_P4
+  
+  ' --- Admin ---
+  usecase "Quản lý tài khoản" as UC_A1
+  usecase "Quản lý công thức" as UC_A2
+  usecase "Quản lý dữ liệu" as UC_A3
+  usecase "Cấu hình hệ thống" as UC_A4
+}
+
+' Liên kết Guest
+Guest --> UC_G1
+Guest --> UC_G2
+Guest --> UC_G3
+Guest --> UC_G4
+Guest --> UC_G5
+
+' Liên kết User
+User --> UC_U1
+User --> UC_U2
+User --> UC_U3
+User --> UC_U4
+User --> UC_U5
+User --> UC_U6
+
+' Liên kết Expert
+Expert --> UC_E1
+Expert --> UC_E2
+Expert --> UC_E3
+
+' Liên kết Planner
+Planner --> UC_P1
+Planner --> UC_P2
+Planner --> UC_P3
+Planner --> UC_P4
+
+' Liên kết Admin
+Admin --> UC_A1
+Admin --> UC_A2
+Admin --> UC_A3
+Admin --> UC_A4
+
+' Kế thừa Guest -> User
+Guest <|-- User
+@enduml
+```
+</details>
+<img width="666" height="1670" alt="Image" src="https://github.com/user-attachments/assets/6c64ec9b-efd7-4ad5-ad05-335cf70ec79c" />
+
 # Chức năng Guest
 
 
