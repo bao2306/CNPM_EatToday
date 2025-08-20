@@ -77,6 +77,8 @@ Planner --|> User
 ```
 </details>
 
+<img width="885" height="624" alt="Image" src="https://github.com/user-attachments/assets/ff1eed26-8a79-45a7-a6fa-875462a56cda" />
+
 
 
 # 2 Chức năng chính của hệ thống
