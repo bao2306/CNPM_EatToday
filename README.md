@@ -331,7 +331,9 @@ Admin --> UC4
    - Gửi thông báo cho cả gia đình về **menu & phân công công việc**.
 
      
-
+<details>
+<summary>Code PlantUML</summary>
+    
  ```plantuml
 @startuml "Sequence - Lên kế hoạch bữa ăn"
 
