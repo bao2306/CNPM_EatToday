@@ -330,10 +330,9 @@ Admin --> UC4
    - Cập nhật trạng thái cuối cùng.  
    - Gửi thông báo cho cả gia đình về **menu & phân công công việc**.
 
-<details>
-<summary> Code PlantUML</summary>
+     
 
-```plantuml
+ ```plantuml
 @startuml "Sequence - Lên kế hoạch bữa ăn"
 
 actor "Thành viên gia đình" as User
@@ -363,8 +362,12 @@ alt Bữa quan trọng
 end
 
 System -> All: Gửi thông báo menu & phân công công việc
----
-@enduml 
+
+@enduml
+
+
+
+
 
 
 
