@@ -705,38 +705,80 @@ System --> UC4
   ## IV. Các trạng thái thực thể trong hệ thống
 
 ### 1. Trạng thái Kế hoạch bữa ăn
-| Trạng thái | Mô tả |
-|------------|-------|
-| **Mới tạo** | Kế hoạch vừa được tạo bởi thành viên, chưa có xác nhận. |
-| **Chờ xác nhận** | Kế hoạch đang chờ người phụ trách nấu ăn hoặc người lớn trong gia đình xem xét. |
-| **Chờ phê duyệt** | Kế hoạch quan trọng đã được chỉnh sửa, đang chờ người lớn trong gia đình phê duyệt. |
-| **Đã phê duyệt** | Kế hoạch đã được phê duyệt, có thể tiến hành đi chợ và chuẩn bị bữa ăn. |
-| **Đang thực hiện** | Công việc đi chợ, nấu ăn đang diễn ra. |
-| **Hoàn thành** | Bữa ăn đã chuẩn bị xong, tất cả công việc liên quan đã hoàn tất. |
-| **Bị từ chối/Chỉnh sửa** | Kế hoạch bị từ chối hoặc yêu cầu chỉnh sửa; người tạo cần cập nhật lại. |
+<details>
+<summary>Code PlantUML</summary>
+    
+ ```plantuml
+@startuml
+state "Mới tạo" as MoiTao
+state "Chờ xác nhận" as ChoXacNhan
+state "Chờ phê duyệt" as ChoPheDuyet
+state "Đã phê duyệt" as DaPheDuyet
+state "Bị từ chối/Chỉnh sửa" as TuChoi
+state "Đang thực hiện" as DangThucHien
+state "Hoàn thành" as HoanThanh
+
+MoiTao --> ChoXacNhan
+ChoXacNhan --> ChoPheDuyet : Nếu là bữa quan trọng
+ChoXacNhan --> DaPheDuyet : Nếu được chấp thuận ngay
+ChoPheDuyet --> DaPheDuyet : Được phê duyệt
+ChoPheDuyet --> TuChoi : Không đồng ý
+DaPheDuyet --> DangThucHien
+DangThucHien --> HoanThanh
+DangThucHien --> TuChoi : Có lỗi / cần chỉnh sửa
+TuChoi --> ChoXacNhan
+@enduml
+```
+</details>
+<img width="408" height="681" alt="Image" src="https://github.com/user-attachments/assets/62af0fae-8561-48e5-a937-51d2b27c4e3a" />
 
 ---
 
 ### 2. Trạng thái Món ăn
-| Trạng thái | Mô tả |
-|------------|-------|
-| **Đang gợi ý** | Món ăn được hệ thống gợi ý dựa trên nguyên liệu và khẩu vị. |
-| **Đang chọn** | Thành viên hoặc người phụ trách nấu ăn đang chọn món cho thực đơn. |
-| **Đã chọn** | Món ăn đã được thêm vào kế hoạch bữa ăn. |
-| **Đang chuẩn bị** | Món ăn đang được nấu/chế biến. |
-| **Hoàn thành** | Món ăn đã nấu xong và sẵn sàng phục vụ. |
-| **Bị loại bỏ** | Món ăn không được chọn hoặc bị thay thế bởi món khác. |
+<details>
+<summary>Code PlantUML</summary>
+    
+ ```plantuml
+@startuml
+state "Đang gợi ý" as GoiY
+state "Đang chọn" as DangChon
+state "Đã chọn" as DaChon
+state "Đang chuẩn bị" as DangChuanBi
+state "Hoàn thành" as HoanThanh
+state "Bị loại bỏ" as BiLoaiBo
+
+GoiY --> DangChon
+DangChon --> DaChon
+DangChon --> BiLoaiBo
+DaChon --> DangChuanBi
+DangChuanBi --> HoanThanh
+DaChon --> BiLoaiBo
+@enduml
+```
+</details>
+<img width="254" height="502" alt="Image" src="https://github.com/user-attachments/assets/f48656c8-f846-414b-aa71-4b33aad8741d" />
 
 ---
 
 ### 3. Trạng thái Công việc
-| Trạng thái | Mô tả |
-|------------|-------|
-| **Chưa bắt đầu** | Công việc (đi chợ, nấu, dọn) chưa thực hiện. |
-| **Đang thực hiện** | Công việc đang được tiến hành. |
-| **Hoàn thành** | Công việc đã hoàn tất. |
-| **Bị hoãn** | Công việc tạm thời bị hoãn do thiếu nguyên liệu hoặc lý do khác. |
+<details>
+<summary>Code PlantUML</summary>
+    
+ ```plantuml
+@startuml
+state "Chưa bắt đầu" as ChuaBatDau
+state "Đang thực hiện" as DangThucHien
+state "Hoàn thành" as HoanThanh
+state "Bị hoãn" as BiHoan
 
+ChuaBatDau --> DangThucHien
+DangThucHien --> HoanThanh
+DangThucHien --> BiHoan
+BiHoan --> DangThucHien
+@enduml
+```
+</details>
+<img width="249" height="282" alt="Image" src="https://github.com/user-attachments/assets/dbb026fb-ed9e-41ae-9f81-6171677da92b" />
 
 ## V. Yêu cầu phi chức năng
 
