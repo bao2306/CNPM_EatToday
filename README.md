@@ -76,7 +76,7 @@ Planner --|> User
 @enduml
 ```
 </details>
-<img width="2864" height="311" alt="Image" src="https://github.com/user-attachments/assets/80091526-e668-4b45-bc56-08f5e3aa0678" />
+
 
 
 # 2 Chức năng chính của hệ thống
@@ -154,7 +154,7 @@ User <|-- Guest
 @enduml
 ```
 </details>
-<img width="2863" height="2000" alt="Image" src="https://github.com/user-attachments/assets/86737810-c8d7-4feb-aa1c-d85bde3c8644" />
+<img width="2864" height="311" alt="Image" src="https://github.com/user-attachments/assets/80091526-e668-4b45-bc56-08f5e3aa0678" />
 
 
 
