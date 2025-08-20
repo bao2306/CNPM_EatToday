@@ -634,40 +634,38 @@ UC5 .u.> EXT1 : <<extend>>
  ```plantuml
 @startuml
 left to right direction
-actor "Người đi chợ" as Shopper
-actor "Người nấu ăn" as Cook
-actor "Người dọn dẹp" as Cleaner
+skinparam packageStyle rectangle
 
-rectangle "Hệ thống" {
-    usecase "Phân công công việc\n(đi chợ, nấu, dọn)" as UC1
-    usecase "Xem danh sách nguyên liệu\ncần mua" as UC2
-    usecase "Xem công thức & bước chế biến" as UC3
-    usecase "Đánh dấu công việc Hoàn thành" as UC4
-    
-    usecase "Cập nhật nguyên liệu thay thế\n(khi thiếu)" as EXT1
-    usecase "Chuyển công việc cho người khác\n(khi thay đổi)" as EXT2
+rectangle "Hệ thống Eat Today" {
+  usecase "Phân công công việc" as UC1
+  usecase "Xem danh sách nguyên liệu cần mua" as UC2
+  usecase "Xem công thức & bước chế biến" as UC3
+  usecase "Đánh dấu hoàn thành" as UC4
+  usecase "Cập nhật thay thế nguyên liệu" as UC5
 }
 
-' Phân công bao gồm các tác vụ
-UC1 -[hidden]-> UC2
-UC1 -[hidden]-> UC3
-UC1 -[hidden]-> UC4
-UC1 --> UC2 : <<include>>
-UC1 --> UC3 : <<include>>
-UC1 --> UC4 : <<include>>
+actor "Người đi chợ" as Shopper
+actor "Người nấu ăn" as Cook
 
-' Các actor chỉ kết nối use case của họ
+Shopper --> UC1
+Cook --> UC1
+
 Shopper --> UC2
 Cook --> UC3
-Cleaner --> UC4
 
-' Ngoại lệ
-UC2 .u.> EXT1 : <<extend>>
-UC1 .d.> EXT2 : <<extend>>
+Shopper --> UC4
+Cook --> UC4
+
+Shopper --> UC5
+
+
+
+Shopper --> UpdateIngredient
+Cook --> UpdateIngredient
 @enduml
 ```
 </details>
-<img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/06e7a0f6-c1bb-4607-a18b-a013763bfe5a" />
+<img width="458" height="538" alt="Image" src="https://github.com/user-attachments/assets/0c9ca06e-ecc4-4bba-bec8-d12977708785" />
 
 ---
 
