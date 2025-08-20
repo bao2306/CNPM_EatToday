@@ -330,7 +330,6 @@ Admin --> UC4
    - Cập nhật trạng thái cuối cùng.  
    - Gửi thông báo cho cả gia đình về **menu & phân công công việc**.
 
-
 <details>
 <summary> Code PlantUML</summary>
 
@@ -365,8 +364,9 @@ end
 
 System -> All: Gửi thông báo menu & phân công công việc
 
-@enduml
-```
+@enduml ```
+
+
 
 
 ## III. Các Luồng Xử Lý
