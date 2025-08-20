@@ -368,7 +368,7 @@ System -> All: Gửi thông báo menu & phân công công việc
 @enduml
 ```
 </details>
-
+<img width="1082" height="692" alt="Image" src="https://github.com/user-attachments/assets/8e3cfbb6-6079-41b1-917d-f2a0007d08d3" />
 
 
 
@@ -390,7 +390,44 @@ System -> All: Gửi thông báo menu & phân công công việc
   6. Hệ thống lưu kế hoạch ở trạng thái **"Chờ xác nhận"**.  
 - **Luồng phụ/ngoại lệ**:  
   - Nếu thiếu thông tin → Hệ thống yêu cầu bổ sung.  
-  - Nếu không có món phù hợp → Hệ thống gợi ý thay thế từ kho công thức.  
+  - Nếu không có món phù hợp → Hệ thống gợi ý thay thế từ kho công thức.
+  - 
+<details>
+<summary>Code PlantUML</summary>
+    
+ ```plantuml
+@startuml
+left to right direction
+actor "Thành viên gia đình" as Member
+
+rectangle "Hệ thống" {
+    usecase "Đăng nhập" as UC1
+    usecase "Tạo kế hoạch bữa ăn" as UC2
+    usecase "Nhập thông tin\n(số bữa, khẩu vị, nguyên liệu)" as UC2_1
+    usecase "Gợi ý thực đơn" as UC2_2
+    usecase "Xác nhận kế hoạch" as UC2_3
+    usecase "Lưu kế hoạch\n[Chờ xác nhận]" as UC2_4
+    
+    usecase "Yêu cầu bổ sung\n(thiếu thông tin)" as UC_EXT1
+    usecase "Gợi ý thay thế\n(không có món phù hợp)" as UC_EXT2
+}
+
+' Liên kết chính
+Member --> UC1
+Member --> UC2
+
+UC2 --> UC2_1
+UC2 --> UC2_2
+UC2 --> UC2_3
+UC2 --> UC2_4
+
+' Quan hệ mở rộng
+UC2_1 .u.> UC_EXT1 : <<extend>>
+UC2_2 .u.> UC_EXT2 : <<extend>>
+@enduml 
+```
+</details>
+<img width="818" height="341" alt="Image" src="https://github.com/user-attachments/assets/f3cdf4c4-9872-45e1-8a33-92152c420766" />
 
 ---
 
@@ -405,7 +442,42 @@ System -> All: Gửi thông báo menu & phân công công việc
   5. Với bữa quan trọng → gửi lên **Người lớn trong gia đình** duyệt.  
 - **Luồng phụ/ngoại lệ**:  
   - Nếu nguyên liệu không có sẵn → Đánh dấu cần đi chợ.  
-  - Nếu chi phí vượt ngân sách → Cảnh báo cho người dùng.  
+  - Nếu chi phí vượt ngân sách → Cảnh báo cho người dùng.
+  
+<details>
+<summary>Code PlantUML</summary>
+    
+ ```plantuml
+@startuml
+left to right direction
+actor "Người phụ trách nấu ăn" as Cook
+
+rectangle "Hệ thống" {
+    usecase "Đăng nhập" as UC1
+    usecase "Truy cập danh sách\nkế hoạch [Chờ xác nhận]" as UC2
+    usecase "Xem chi tiết kế hoạch\n(món, khẩu phần, chi phí)" as UC3
+    usecase "Chỉnh sửa kế hoạch" as UC4
+    usecase "Lưu thay đổi" as UC5
+    usecase "Gửi duyệt kế hoạch\nbữa quan trọng" as UC6
+    
+    usecase "Đánh dấu cần đi chợ\n(nếu thiếu nguyên liệu)" as EXT1
+    usecase "Cảnh báo chi phí vượt ngân sách" as EXT2
+}
+
+Cook --> UC1
+Cook --> UC2
+UC2 --> UC3
+UC3 --> UC4
+UC4 --> UC5
+UC5 --> UC6
+
+' Ngoại lệ
+UC3 .u.> EXT1 : <<extend>>
+UC4 .u.> EXT2 : <<extend>>
+@enduml
+```
+</details>
+<img width="1587" height="264" alt="Image" src="https://github.com/user-attachments/assets/0bb186c3-583d-475d-b183-474115e732a8" />
 
 ---
 
@@ -421,6 +493,39 @@ System -> All: Gửi thông báo menu & phân công công việc
 - **Luồng phụ/ngoại lệ**:  
   - Nếu từ chối → hệ thống trả về trạng thái **"Cần chỉnh sửa"** và thông báo cho người phụ trách.  
 
+<details>
+<summary>Code PlantUML</summary>
+    
+ ```plantuml
+@startuml
+left to right direction
+actor "Người lớn trong gia đình\n(Bố/Mẹ/Ông/Bà)" as Parent
+
+rectangle "Hệ thống" {
+    usecase "Đăng nhập" as UC1
+    usecase "Truy cập danh sách\ncần phê duyệt" as UC2
+    usecase "Xem thông tin\n(thực đơn, chi phí, nguyên liệu)" as UC3
+    usecase "Phê duyệt kế hoạch" as UC4
+    usecase "Từ chối kế hoạch" as UC5
+    usecase "Cập nhật trạng thái kế hoạch" as UC6
+    usecase "Trả về 'Cần chỉnh sửa'\nvà thông báo cho người phụ trách" as EXT1
+}
+
+Parent --> UC1
+Parent --> UC2
+UC2 --> UC3
+UC3 --> UC4
+UC3 --> UC5
+UC4 --> UC6
+UC5 --> UC6
+
+' Ngoại lệ
+UC5 .u.> EXT1 : <<extend>>
+@enduml
+```
+</details>
+<img width="1356" height="211" alt="Image" src="https://github.com/user-attachments/assets/8a3d1b41-74fb-4db1-98bf-4f0ea245bf59" />
+
 ---
 
 ### 4. Luồng xử lý: Đi chợ & chuẩn bị bữa ăn
@@ -435,6 +540,47 @@ System -> All: Gửi thông báo menu & phân công công việc
   - Nếu thiếu nguyên liệu → có thể cập nhật thay thế trong ứng dụng.  
   - Nếu có sự thay đổi đột xuất → Người dùng khác có thể nhận thay công việc.  
 
+<details>
+<summary>Code PlantUML</summary>
+    
+ ```plantuml
+@startuml
+left to right direction
+actor "Người đi chợ" as Shopper
+actor "Người nấu ăn" as Cook
+actor "Người dọn dẹp" as Cleaner
+
+rectangle "Hệ thống" {
+    usecase "Phân công công việc\n(đi chợ, nấu, dọn)" as UC1
+    usecase "Xem danh sách nguyên liệu\ncần mua" as UC2
+    usecase "Xem công thức & bước chế biến" as UC3
+    usecase "Đánh dấu công việc Hoàn thành" as UC4
+    
+    usecase "Cập nhật nguyên liệu thay thế\n(khi thiếu)" as EXT1
+    usecase "Chuyển công việc cho người khác\n(khi thay đổi)" as EXT2
+}
+
+' Phân công bao gồm các tác vụ
+UC1 -[hidden]-> UC2
+UC1 -[hidden]-> UC3
+UC1 -[hidden]-> UC4
+UC1 --> UC2 : <<include>>
+UC1 --> UC3 : <<include>>
+UC1 --> UC4 : <<include>>
+
+' Các actor chỉ kết nối use case của họ
+Shopper --> UC2
+Cook --> UC3
+Cleaner --> UC4
+
+' Ngoại lệ
+UC2 .u.> EXT1 : <<extend>>
+UC1 .d.> EXT2 : <<extend>>
+@enduml
+```
+</details>
+<img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/06e7a0f6-c1bb-4607-a18b-a013763bfe5a" />
+
 ---
 
 ### 5. Luồng xử lý: Thông báo & nhắc nhở
@@ -446,8 +592,29 @@ System -> All: Gửi thông báo menu & phân công công việc
   3. Nhắc nhở khi đến giờ đi chợ/nấu ăn/dọn dẹp.  
   4. Thông báo kết quả sau khi bữa ăn hoàn thành.
 
+<details>
+<summary>Code PlantUML</summary>
+    
+ ```plantuml
+@startuml
+left to right direction
+actor "Hệ thống" as System
 
+rectangle "Ứng dụng" {
+    usecase "Thông báo khi có kế hoạch mới" as UC1
+    usecase "Thông báo khi kế hoạch được duyệt\nhoặc yêu cầu chỉnh sửa" as UC2
+    usecase "Nhắc nhở khi đến giờ đi chợ /\nnấu ăn / dọn dẹp" as UC3
+    usecase "Thông báo kết quả sau khi\nbữa ăn hoàn thành" as UC4
+}
 
+System --> UC1
+System --> UC2
+System --> UC3
+System --> UC4
+@enduml
+```
+</details>
+<img width="430" height="387" alt="Image" src="https://github.com/user-attachments/assets/5692c6ec-be8e-41b4-9c8f-89e49425732e" />
 
   ## IV. Các trạng thái thực thể trong hệ thống
 
