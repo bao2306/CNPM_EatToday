@@ -154,6 +154,9 @@ User <|-- Guest
 @enduml
 ```
 </details>
+<img width="2863" height="2000" alt="Image" src="https://github.com/user-attachments/assets/86737810-c8d7-4feb-aa1c-d85bde3c8644" />
+
+
 
 # Biểu đồ Use Case chi tiết
 
