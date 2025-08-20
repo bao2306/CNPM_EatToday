@@ -363,11 +363,11 @@ alt Bữa quan trọng
 end
 
 System -> All: Gửi thông báo menu & phân công công việc
-
+---
 @enduml 
 
 
----
+
 
 ## III. Các Luồng Xử Lý
 
