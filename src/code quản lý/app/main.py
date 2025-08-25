@@ -5,7 +5,6 @@ from .core.config import settings
 from .db.session import engine, Base
 from .api.v1 import auth, users, meals
 
-# Create tables if not exist (SQLite/dev)
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title=settings.APP_NAME)
