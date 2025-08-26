@@ -1,14 +1,20 @@
-# login.py
-from sceens.api import login_api
+from screens.api import login_api
 
 def login_screen():
-    username = input("👤 Tên đăng nhập: ")
-    password = input("🔑 Mật khẩu: ")
+    print("=== Đăng nhập ===")
+    username = input("👤 Tên đăng nhập: ").strip()
+    password = input("🔑 Mật khẩu: ").strip()
 
-    result = login_api(username, password)
-    if result.get("success"):
+    res = login_api(username, password)
+    if res["success"]:
+        # backend nên trả user info hoặc user_id
+        user = res["data"]
+        user_id = user.get("user_id") or user.get("id")
         print("✅ Đăng nhập thành công!")
-        return result.get("user_id")   # trả user_id để màn khác dùng
+        return user_id
     else:
-        print("❌ Sai thông tin đăng nhập!")
+        print("❌ Đăng nhập thất bại:", res["error"] or res["data"])
         return None
+
+if __name__ == "__main__":
+    login_screen()
