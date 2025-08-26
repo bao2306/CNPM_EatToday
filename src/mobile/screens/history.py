@@ -1,14 +1,9 @@
-import asyncio
-from mobile.api import get_history
+# history.py
+from sceens.api import get_history
 
-async def history_screen():
-    print("=== Lịch sử món đã chọn ===")
-    user_id = int(input("Nhập user_id: "))
-
-    result = await get_history(user_id)
-    print("👉 Lịch sử món ăn:")
-    for item in result:
-        print(f"- {item}")
-
-if __name__ == "__main__":
-    asyncio.run(history_screen())
+def history_screen(user_id):
+    history = get_history(user_id)
+    print("\n===== Lịch sử món đã chọn =====")
+    for idx, meal in enumerate(history.get("meals", []), start=1):
+        print(f"{idx}. {meal}")
+    print("================================\n")
