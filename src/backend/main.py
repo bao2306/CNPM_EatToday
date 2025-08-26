@@ -7,7 +7,8 @@ app = FastAPI(title="EatToday Backend API")
 
 # Tạo DB
 models.Base.metadata.create_all(bind=database.engine)
-
+#đăng kí router
+app.include_router(api_router)
 # Dependency
 def get_db():
     db = database.SessionLocal()
