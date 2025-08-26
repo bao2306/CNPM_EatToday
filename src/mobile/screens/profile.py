@@ -1,12 +1,10 @@
-import asyncio
-from mobile.api import get_profile
+# profile.py
+from sceens.api import get_profile
 
-async def profile_screen():
-    print("=== Hồ sơ cá nhân ===")
-    user_id = int(input("Nhập user_id: "))
-
-    result = await get_profile(user_id)
-    print("👉 Hồ sơ:", result)
-
-if __name__ == "__main__":
-    asyncio.run(profile_screen())
+def profile_screen(user_id):
+    profile = get_profile(user_id)
+    print("\n===== Hồ sơ cá nhân =====")
+    print(f"👤 Tên: {profile.get('name')}")
+    print(f"📧 Email: {profile.get('email')}")
+    print(f"🍳 Sở thích: {profile.get('preferences')}")
+    print("=========================\n")
