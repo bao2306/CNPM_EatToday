@@ -1,13 +1,14 @@
-import asyncio
-from mobile.api import login
+# login.py
+from sceens.api import login_api
 
-async def login_screen():
-    print("=== Đăng nhập ===")
-    username = input("Nhập username: ")
-    password = input("Nhập password: ")
+def login_screen():
+    username = input("👤 Tên đăng nhập: ")
+    password = input("🔑 Mật khẩu: ")
 
-    result = await login(username, password)
-    print("👉 Kết quả đăng nhập:", result)
-
-if __name__ == "__main__":
-    asyncio.run(login_screen())
+    result = login_api(username, password)
+    if result.get("success"):
+        print("✅ Đăng nhập thành công!")
+        return result.get("user_id")   # trả user_id để màn khác dùng
+    else:
+        print("❌ Sai thông tin đăng nhập!")
+        return None
