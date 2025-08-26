@@ -1,13 +1,11 @@
-import asyncio
-from mobile.api import get_menu
+# menu.py
+from sceens.api import get_menu
 
-async def menu_screen():
-    print("=== Trang gợi ý thực đơn ===")
-    result = await get_menu()
+def menu_screen():
+    choice = input("Bạn muốn xem thực đơn (daily/weekly): ")
+    menu = get_menu(choice)
 
-    print("👉 Thực đơn hôm nay:")
-    for item in result:
-        print(f"- {item}")
-
-if __name__ == "__main__":
-    asyncio.run(menu_screen())
+    print(f"\n===== Gợi ý thực đơn ({choice}) =====")
+    for idx, item in enumerate(menu.get("meals", []), start=1):
+        print(f"{idx}. {item}")
+    print("=====================================\n")
