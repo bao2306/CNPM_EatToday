@@ -1,6 +1,4 @@
--- Sample data for EatToday application
 
--- Insert Categories
 INSERT INTO Category (name, description) VALUES
 ('Breakfast', 'Morning meals to start the day'),
 ('Lunch', 'Meals served around noon'),
