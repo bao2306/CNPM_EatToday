@@ -1,40 +1,46 @@
-USE EatToday;
+-- Sample data for EatToday application
 
--- Thêm Category
+-- Insert Categories
 INSERT INTO Category (name, description) VALUES
-('Món chính', 'Các món chính cho bữa ăn'),
-('Món phụ', 'Ăn kèm hoặc nhẹ'),
-('Tráng miệng', 'Bánh, chè, hoa quả'),
-('Đồ uống', 'Nước, sinh tố, cà phê');
+('Breakfast', 'Morning meals to start the day'),
+('Lunch', 'Meals served around noon'),
+('Dinner', 'Evening meals for the family'),
+('Dessert', 'Sweet dishes'),
+('Drink', 'Beverages and smoothies');
 
--- Thêm Ingredient
+-- Insert Foods
+INSERT INTO Food (name, category_id, description) VALUES
+('Pho Bo', 2, 'Vietnamese beef noodle soup'),
+('Banh Mi', 1, 'Vietnamese baguette sandwich'),
+('Com Tam', 2, 'Broken rice with grilled pork'),
+('Che Ba Mau', 4, 'Vietnamese three-color dessert'),
+('Sinh To Xoai', 5, 'Mango smoothie');
+
+-- Insert Ingredients
 INSERT INTO Ingredient (name, unit) VALUES
-('Thịt gà', 'gram'),
-('Thịt bò', 'gram'),
-('Cơm trắng', 'bát'),
-('Trứng', 'quả'),
-('Sữa', 'ml');
+('Beef', 'grams'),
+('Rice Noodles', 'grams'),
+('Pork', 'grams'),
+('Mango', 'pieces'),
+('Milk', 'ml'),
+('Sugar', 'grams');
 
--- Thêm Food
-INSERT INTO Food (category_id, name, description, calories) VALUES
-(1, 'Cơm gà xối mỡ', 'Món cơm gà chiên giòn, ăn kèm dưa leo', 650),
-(1, 'Bò xào rau củ', 'Thịt bò xào cùng rau củ tươi', 550),
-(3, 'Chè khúc bạch', 'Tráng miệng ngọt mát', 300);
-
--- Thêm Recipe
+-- Insert Recipes
 INSERT INTO Recipe (food_id, ingredient_id, quantity) VALUES
-(1, 1, 200), -- Cơm gà dùng 200g gà
-(1, 3, 1),   -- 1 bát cơm
-(2, 2, 150), -- Bò xào 150g thịt bò
-(2, 4, 1);   -- 1 quả trứng
+(1, 1, 200),  -- Pho Bo: 200g Beef
+(1, 2, 150),  -- Pho Bo: 150g Rice Noodles
+(3, 3, 200),  -- Com Tam: 200g Pork
+(5, 4, 1),    -- Mango Smoothie: 1 Mango
+(5, 5, 100),  -- Mango Smoothie: 100ml Milk
+(5, 6, 20);   -- Mango Smoothie: 20g Sugar
 
--- Thêm User
-INSERT INTO User (username, password, email, preferences, budget, diet_type) VALUES
-('ngocanh', 'hashed_pass1', 'ngocanh@example.com', 'Thích đồ chiên', 100000, 'Normal'),
-('minhquan', 'hashed_pass2', 'quan@example.com', 'Ưa đồ ngọt', 150000, 'Keto');
+-- Insert Users
+INSERT INTO "User" (username, password_hash, email, role) VALUES
+('admin', 'hashed_password_123', 'admin@eattoday.com', 'admin'),
+('mary', 'hashed_password_abc', 'mary@example.com', 'housewife');
 
--- Thêm History
-INSERT INTO History (user_id, food_id) VALUES
-(1, 1),
-(1, 2),
-(2, 3);
+-- Insert History
+INSERT INTO History (user_id, food_id, planned_date) VALUES
+(2, 1, '2025-08-26'),
+(2, 3, '2025-08-27'),
+(2, 5, '2025-08-27');
