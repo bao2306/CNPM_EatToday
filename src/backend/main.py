@@ -5,11 +5,8 @@ from . import models, schemas, crud, database
 
 app = FastAPI(title="EatToday Backend API")
 
-# Tạo DB
 models.Base.metadata.create_all(bind=database.engine)
-#đăng kí router
 app.include_router(api_router)
-# Dependency
 def get_db():
     db = database.SessionLocal()
     try:
@@ -17,11 +14,11 @@ def get_db():
     finally:
         db.close()
 
+# ---------------- Routes ----------------
+
 @app.get("/")
 def root():
     return {"message": "EatToday Backend API is running!"}
-
-# ---------------- Routes ----------------
 
 @app.post("/signup")
 def signup(user: schemas.UserCreate, db: Session = Depends(get_db)):
