@@ -352,6 +352,14 @@ GET /api/meals?page=2&limit=5
 
 
 ## 🧪 Testing
+
+### Postman Collection
+Hiện tại, file Postman Collection đã được cung cấp tại `/docs/postman_collection.json`. Bạn có thể import file này vào Postman để test các endpoint một cách dễ dàng. 
+**Hướng dẫn:**
+  1. Mở Postman và tạo một Collection mới với tên "EatToday API".
+  2. Nhập file `/docs/postman_collection.json`.
+  3. Sử dụng dữ liệu mẫu từ phần "Test Accounts" để test.
+
 **Test Accounts**
 ```
 Admin: admin@eattoday.com / admin123
