@@ -1,13 +1,17 @@
-from screens.api import get_profile
+from mobile.utils import clear, pause, delay_print
+from mobile.api.api_client import get_profile
 
-def profile_screen(user_id):
-    res = get_profile(user_id)
-    if res["success"]:
-        p = res["data"]
-        print("\n===== Hồ sơ cá nhân =====")
-        print(f"👤 Tên: {p.get('name')}")
-        print(f"📧 Email: {p.get('email')}")
-        print(f"🍳 Sở thích: {p.get('preferences')}")
-        print("=========================\n")
-    else:
-        print("❌ Không thể lấy hồ sơ:", res["error"] or res["data"])
+def profile_screen(user):
+    clear()
+    print("╔══════════════════════════╗")
+    print("║     👤 HỒ SƠ CÁ NHÂN      ║")
+    print("╚══════════════════════════╝")
+
+    try:
+        profile = get_profile(user["user_id"])
+        print(f"🆔 ID: {profile['id']}")
+        print(f"👤 Username: {profile['username']}")
+        print(f"📛 Họ tên: {profile['fullname']}")
+    except Exception as e:
+        delay_print(f"❌ Lỗi tải hồ sơ: {e}")
+    pause()
