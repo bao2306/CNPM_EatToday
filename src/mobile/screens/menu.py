@@ -1,16 +1,27 @@
-from screens.api import get_menu
+from mobile.utils import clear, pause, delay_print
+from mobile.api.api_client import get_recipes
 
-def menu_screen():
-    menu_type = input("Bạn muốn xem thực đơn (daily/weekly) [daily]: ").strip() or "daily"
-    res = get_menu(menu_type)
-    if res["success"]:
-        meals = res["data"].get("meals") if isinstance(res["data"], dict) else res["data"]
-        print(f"\n===== Gợi ý thực đơn ({menu_type}) =====")
-        if meals:
-            for i, m in enumerate(meals, start=1):
-                print(f"{i}. {m}")
+def menu_screen(user):
+    while True:
+        clear()
+        print("╔══════════════════════════╗")
+        print("║      🍽️ THỰC ĐƠN HÔM NAY  ║")
+        print("╚══════════════════════════╝")
+
+        try:
+            recipes = get_recipes()
+            if not recipes:
+                print("⚠️ Hiện chưa có món nào trong hệ thống.")
+            else:
+                for r in recipes:
+                    print(f"[{r['id']}] 🍲 {r['title']}\n   📖 {r['detail'][:50]}...\n")
+        except Exception as e:
+            delay_print(f"❌ Lỗi tải thực đơn: {e}")
+
+        print("\n0. ⬅️ Quay lại")
+        choice = input("👉 Nhập ID món để xem chi tiết: ")
+        if choice == "0":
+            break
         else:
-            print("Không có món nào.")
-        print("=====================================\n")
-    else:
-        print("❌ Lấy thực đơn thất bại:", res["error"] or res["data"])
+            delay_print(f"\n👉 Bạn đã chọn món #{choice}")
+            pause()
