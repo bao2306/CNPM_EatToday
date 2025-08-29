@@ -1,19 +1,10 @@
-from screens.api import get_recipe
+from mobile.utils import clear, pause, delay_print
 
-def recipe_screen():
-    recipe_id = input("Nhập ID món ăn cần xem chi tiết: ").strip()
-    if not recipe_id:
-        print("❌ Bạn chưa nhập ID.")
-        return
-    res = get_recipe(recipe_id)
-    if res["success"]:
-        r = res["data"]
-        print(f"\n===== Công thức: {r.get('name')} =====")
-        print("Nguyên liệu:")
-        for ing in r.get("ingredients", []):
-            print(f"- {ing}")
-        print("\nCách nấu:")
-        print(r.get("instructions", "Không có hướng dẫn."))
-        print("==========================================\n")
-    else:
-        print("❌ Lấy công thức thất bại:", res["error"] or res["data"])
+def recipe_screen(recipe):
+    clear()
+    print("╔══════════════════════════╗")
+    print("║     📖 CHI TIẾT MÓN ĂN    ║")
+    print("╚══════════════════════════╝")
+    print(f"\n🍲 {recipe['title']}")
+    print(f"\n📝 Mô tả: {recipe['detail']}")
+    pause()
