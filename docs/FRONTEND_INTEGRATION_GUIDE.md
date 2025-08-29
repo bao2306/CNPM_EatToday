@@ -675,6 +675,6 @@ class TouchButton extends StatelessWidget {
 
 ## 📞 Support
 Nếu có vấn đề trong quá trình tích hợp:
-  - Email: support@eattoday.com
-  - Documentation: Xem trong docs
-  - GitHub Issues: https://github.com/your-username/EatToday/issues
+  - **Email:** support@eattoday.com
+  - **Documentation:**  https://docs.eattoday.com
+  - **GitHub Issues:** https://github.com/bao2306/CPM_EatToday/issues
