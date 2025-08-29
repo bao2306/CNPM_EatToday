@@ -1,0 +1,763 @@
+{
+  "info": {
+    "name": "EatToday API Collection",
+    "description": "Complete API collection for EatToday - Meal Planning Application",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:5000",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\",\n  \"full_name\": \"Nguyễn Thị B\",\n  \"phone\": \"0901234567\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\",\n  \"full_name\": \"Nguyễn Thị B\",\n  \"phone\": \"0901234567\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/register",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "auth", "register"]
+                }
+              },
+              "status": "200 OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Đăng ký thành công! Vui lòng kiểm tra email.\",\n  \"data\": {\n    \"user\": {\n      \"id\": 1,\n      \"email\": \"user@example.com\",\n      \"full_name\": \"Nguyễn Thị B\"\n    }\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.success && response.data.access_token) {",
+                  "        pm.collectionVariables.set('access_token', response.data.access_token);",
+                  "        console.log('Access token saved:', response.data.access_token);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/login",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "auth", "login"]
+                }
+              },
+              "status": "200 OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Đăng nhập thành công!\",\n  \"data\": {\n    \"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...\",\n    \"user\": {\n      \"id\": 1,\n      \"email\": \"user@example.com\",\n      \"role\": \"housewife\"\n    }\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"verification_code\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/verify-email",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "verify-email"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success (Under Development)",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"user@example.com\",\n  \"verification_code\": \"123456\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/auth/verify-email",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "auth", "verify-email"]
+                }
+              },
+              "status": "200 OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Chức năng đang phát triển.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "🍲 Meal Suggestions",
+      "item": [
+        {
+          "name": "Get Meals",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/meals?page=1&limit=10&category=mon_nam&max_time=30",
+              "host": ["{{base_url}}"],
+              "path": ["api", "meals"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "category",
+                  "value": "mon_nam"
+                },
+                {
+                  "key": "max_time",
+                  "value": "30"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/api/meals?page=1&limit=10&category=mon_nam&max_time=30",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "meals"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "category",
+                      "value": "mon_nam"
+                    },
+                    {
+                      "key": "max_time",
+                      "value": "30"
+                    }
+                  ]
+                }
+              },
+              "status": "200 OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Lấy danh sách món ăn thành công\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Canh chua cá lóc\",\n      \"description\": \"Món canh chua đặc trưng miền Tây...\",\n      \"category\": \"mon_nam\",\n      \"cooking_time\": 30,\n      \"ingredients\": [\"cá lóc\", \"cà chua\", \"dọc mùng\"],\n      \"image\": \"canh_chua.jpg\",\n      \"suggested\": true\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Suggest Meal",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"preferences\": \"mon_nam, thit_bo\",\n  \"budget\": 500000,\n  \"ingredients_available\": [\"thit_bo\", \"rau_cai\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/meals/suggest",
+              "host": ["{{base_url}}"],
+              "path": ["api", "meals", "suggest"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"preferences\": \"mon_nam, thit_bo\",\n  \"budget\": 500000,\n  \"ingredients_available\": [\"thit_bo\", \"rau_cai\"]\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/meals/suggest",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "meals", "suggest"]
+                }
+              },
+              "status": "200 OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Gợi ý thực đơn thành công\",\n  \"data\": {\n    \"meal_id\": 1,\n    \"title\": \"Bò xào rau cải\",\n    \"ingredients_needed\": [\"dau_hoi\"]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Categories",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/meals/categories",
+              "host": ["{{base_url}}"],
+              "path": ["api", "meals", "categories"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/api/meals/categories",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "meals", "categories"]
+                }
+              },
+              "status": "200 OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Lấy danh sách loại món thành công\",\n  \"data\": {\n    \"categories\": [\n      {\"value\": \"mon_nam\", \"label\": \"Món mặn\"},\n      {\"value\": \"mon_chay\", \"label\": \"Món chay\"},\n      {\"value\": \"mon_can\", \"label\": \"Món canh\"},\n      {\"value\": \"mon_xao\", \"label\": \"Món xào\"}\n    ]\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "🛒 Shopping List",
+      "item": [
+        {
+          "name": "Get Shopping List",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/shopping-list?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "shopping-list"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/api/shopping-list?page=1&limit=10",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "shopping-list"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                }
+              },
+              "status": "200 OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Lấy danh sách mua sắm thành công\",\n  \"data\": [\n    {\"id\": 1, \"ingredient\": \"dầu hào\", \"quantity\": 1},\n    {\"id\": 2, \"ingredient\": \"thịt bò\", \"quantity\": 0.5}\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Shopping Item",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ingredient_id\": 1,\n  \"purchased\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/shopping-list/update",
+              "host": ["{{base_url}}"],
+              "path": ["api", "shopping-list", "update"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ingredient_id\": 1,\n  \"purchased\": true\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/shopping-list/update",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "shopping-list", "update"]
+                }
+              },
+              "status": "200 OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Cập nhật trạng thái mua sắm thành công\",\n  \"data\": {\"ingredient_id\": 1, \"purchased\": true}\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "👩‍🍳 Admin",
+      "item": [
+        {
+          "name": "Get All Meals",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/meals",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "meals"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/api/admin/meals",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "admin", "meals"]
+                }
+              },
+              "status": "200 OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Lấy danh sách món ăn thành công\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"title\": \"Canh chua cá lóc\",\n      \"category\": \"mon_can\",\n      \"ingredients\": [\"cá lóc\", \"cà chua\"],\n      \"cooking_time\": 30\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Add Meal",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Canh chua cá lóc\",\n  \"category\": \"mon_can\",\n  \"ingredients\": [\"cá lóc\", \"cà chua\"],\n  \"cooking_time\": 30\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/meals",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "meals"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Canh chua cá lóc\",\n  \"category\": \"mon_can\",\n  \"ingredients\": [\"cá lóc\", \"cà chua\"],\n  \"cooking_time\": 30\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/admin/meals",
+                  "host": ["{{base_url}}"],
+                  "path": ["api", "admin", "meals"]
+                }
+              },
+              "status": "201 Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Thêm món ăn thành công\",\n  \"data\": {\n    \"id\": 2,\n    \"title\": \"Canh chua cá lóc\",\n    \"category\": \"mon_can\",\n    \"ingredients\": [\"cá lóc\", \"cà chua\"],\n    \"cooking_time\": 30\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "🔧 System",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "url": {
+                  "raw": "{{base_url}}/health",
+                  "host": ["{{base_url}}"],
+                  "path": ["health"]
+                }
+              },
+              "status": "200 OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Server is healthy\",\n  \"data\": {\n    \"status\": \"up\",\n    \"timestamp\": \"2025-08-29T20:20:00Z\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Auto-set base URL if not set",
+          "if (!pm.collectionVariables.get('base_url')) {",
+          "    pm.collectionVariables.set('base_url', 'http://127.0.0.1:5000');",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global test script",
+          "pm.test('Response time is less than 5000ms', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});",
+          "",
+          "pm.test('Response has success field', function () {",
+          "    const response = pm.response.json();",
+          "    pm.expect(response).to.have.property('success');",
+          "});",
+          "",
+          "pm.test('Response has message field', function () {",
+          "    const response = pm.response.json();",
+          "    pm.expect(response).to.have.property('message');",
+          "});",
+          "",
+          "pm.test('Status code is valid', function () {",
+          "    pm.response.to.have.status(200);",
+          "});"
+        ]
+      }
+    }
+  ]
+}
