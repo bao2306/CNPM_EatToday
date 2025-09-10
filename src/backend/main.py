@@ -1,12 +1,16 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
+
 from . import models, schemas, crud, database
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(title="EatToday Backend API")
 
+# Tạo bảng trong DB
 models.Base.metadata.create_all(bind=database.engine)
-app.include_router(api_router)
+
+# Dependency lấy DB session
 def get_db():
     db = database.SessionLocal()
     try:
@@ -16,7 +20,7 @@ def get_db():
 
 # ---------------- Routes ----------------
 
-@app.get("/")
+@app.get("/api")
 def root():
     return {"message": "EatToday Backend API is running!"}
 
@@ -51,3 +55,6 @@ def add_history(user_id: int, recipe_id: int, db: Session = Depends(get_db)):
 def get_history(user_id: int, db: Session = Depends(get_db)):
     history = crud.get_history(db, user_id)
     return [{"recipe_id": h.recipe_id} for h in history]
+
+# ---------------- Serve Frontend ----------------
+app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
