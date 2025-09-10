@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+    environment:
+      - FLASK_APP=src
+      - FLASK_ENV=development
+    command: python -m flask run --host=0.0.0.0
+
+volumes:
+  sqlite_data:
