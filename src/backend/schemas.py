@@ -1,12 +1,11 @@
 from pydantic import BaseModel
 from typing import Optional
 
-# -------------------- User --------------------
 
 class UserCreate(BaseModel):
     username: str
     password: str
-    fullname: Optional[str] = None   # thêm nếu muốn lưu fullname
+    fullname: Optional[str] = None  
 
 class UserLogin(BaseModel):
     username: str
@@ -22,7 +21,7 @@ class UserResponse(BaseModel):
     class Config:
         orm_mode = True
 
-# -------------------- Recipe --------------------
+
 
 class RecipeCreate(BaseModel):
     name: str
