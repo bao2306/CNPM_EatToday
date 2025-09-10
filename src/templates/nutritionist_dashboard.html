@@ -1,0 +1,387 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Nutritionist - Eat Today{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-heartbeat text-warning me-3"></i>Dashboard Nutritionist
+            </h1>
+            <p class="text-muted">Phân tích dinh dưỡng và tư vấn chế độ ăn</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-bolt me-2"></i>Thao tác chuyên gia dinh dưỡng
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-warning w-100" onclick="viewNutritionRecommendations()">
+                                <i class="fas fa-lightbulb me-2"></i>Khuyến nghị dinh dưỡng
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-success w-100" onclick="analyzeMealPlan()">
+                                <i class="fas fa-chart-pie me-2"></i>Phân tích kế hoạch
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-info w-100" onclick="suggestRecipeImprovements()">
+                                <i class="fas fa-utensils me-2"></i>Gợi ý cải thiện
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-primary w-100" onclick="createNutritionPlan()">
+                                <i class="fas fa-plus me-2"></i>Tạo kế hoạch dinh dưỡng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div id="nutritionistContent">
+                        <div class="text-center py-5">
+                            <i class="fas fa-heartbeat text-warning" style="font-size: 4rem;"></i>
+                            <h3 class="text-muted mt-3">Chào mừng Chuyên gia Dinh dưỡng!</h3>
+                            <p class="text-muted">Chọn một thao tác ở trên để bắt đầu phân tích dinh dưỡng</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Analyze Meal Plan Modal -->
+<div class="modal fade" id="analyzeMealPlanModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Phân tích dinh dưỡng kế hoạch bữa ăn</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="analyzeMealPlanForm">
+                    <div class="mb-3">
+                        <label for="mealPlanId" class="form-label">ID Kế hoạch bữa ăn</label>
+                        <input type="number" class="form-control" id="mealPlanId" placeholder="Nhập ID kế hoạch" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success" onclick="submitAnalyzeMealPlan()">Phân tích</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Suggest Recipe Improvements Modal -->
+<div class="modal fade" id="suggestRecipeModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Gợi ý cải thiện công thức</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="suggestRecipeForm">
+                    <div class="mb-3">
+                        <label for="recipeId" class="form-label">ID Công thức</label>
+                        <input type="number" class="form-control" id="recipeId" placeholder="Nhập ID công thức" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-info" onclick="submitSuggestRecipe()">Gợi ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Nutritionist functions
+    async function viewNutritionRecommendations() {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/nutritionist/recommendations', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                displayNutritionRecommendations(data.recommendations);
+            }
+        } catch (error) {
+            showAlert('Lỗi tải khuyến nghị dinh dưỡng!', 'danger');
+        }
+    }
+
+    function displayNutritionRecommendations(recommendations) {
+        const content = document.getElementById('nutritionistContent');
+        content.innerHTML = `
+            <h5><i class="fas fa-lightbulb me-2"></i>Khuyến nghị dinh dưỡng</h5>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title text-primary">
+                                <i class="fas fa-utensils me-2"></i>Chung
+                            </h6>
+                            <ul class="list-unstyled">
+                                ${recommendations.general.map(rec => `<li><i class="fas fa-check text-success me-2"></i>${rec}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title text-success">
+                                <i class="fas fa-clock me-2"></i>Thời gian ăn
+                            </h6>
+                            <ul class="list-unstyled">
+                                ${recommendations.meal_timing.map(rec => `<li><i class="fas fa-check text-success me-2"></i>${rec}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title text-warning">
+                                <i class="fas fa-balance-scale me-2"></i>Kiểm soát khẩu phần
+                            </h6>
+                            <ul class="list-unstyled">
+                                ${recommendations.portion_control.map(rec => `<li><i class="fas fa-check text-success me-2"></i>${rec}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function analyzeMealPlan() {
+        new bootstrap.Modal(document.getElementById('analyzeMealPlanModal')).show();
+    }
+
+    async function submitAnalyzeMealPlan() {
+        const mealPlanId = document.getElementById('mealPlanId').value;
+        
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/nutritionist/meal-plans/${mealPlanId}/analyze`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                bootstrap.Modal.getInstance(document.getElementById('analyzeMealPlanModal')).hide();
+                displayMealPlanAnalysis(data);
+            } else {
+                showAlert(data.error || 'Phân tích thất bại!', 'danger');
+            }
+        } catch (error) {
+            showAlert('Lỗi kết nối!', 'danger');
+        }
+    }
+
+    function displayMealPlanAnalysis(data) {
+        const content = document.getElementById('nutritionistContent');
+        const analysis = data.nutrition_analysis;
+        
+        content.innerHTML = `
+            <h5><i class="fas fa-chart-pie me-2"></i>Phân tích dinh dưỡng kế hoạch bữa ăn #${data.meal_plan_id}</h5>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">Thông tin cơ bản</h6>
+                            <p><strong>Kích thước gia đình:</strong> ${data.family_size} người</p>
+                            <p><strong>Tình trạng tổng thể:</strong> 
+                                <span class="badge bg-${data.overall_status === 'balanced' ? 'success' : 'warning'}">
+                                    ${data.overall_status === 'balanced' ? 'Cân bằng' : 'Cần chú ý'}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h6>Phân tích chi tiết dinh dưỡng:</h6>
+            <div class="row">
+                ${Object.entries(analysis).map(([nutrient, info]) => `
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title text-capitalize">${nutrient}</h6>
+                                <div class="progress mb-2" style="height: 20px;">
+                                    <div class="progress-bar bg-${getProgressBarColor(info.status)}" 
+                                         style="width: ${Math.min(info.percentage, 100)}%">
+                                        ${info.percentage}%
+                                    </div>
+                                </div>
+                                <small class="text-muted">
+                                    Hiện tại: ${info.current.toFixed(1)} / Khuyến nghị: ${info.recommended.toFixed(1)}
+                                </small>
+                                <br>
+                                <span class="badge bg-${getStatusColor(info.status)}">
+                                    ${getStatusText(info.status)}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function getProgressBarColor(status) {
+        const colors = {
+            'good': 'success',
+            'low': 'warning',
+            'high': 'danger'
+        };
+        return colors[status] || 'secondary';
+    }
+
+    function getStatusColor(status) {
+        const colors = {
+            'good': 'success',
+            'low': 'warning',
+            'high': 'danger'
+        };
+        return colors[status] || 'secondary';
+    }
+
+    function getStatusText(status) {
+        const texts = {
+            'good': 'Tốt',
+            'low': 'Thiếu',
+            'high': 'Thừa'
+        };
+        return texts[status] || 'Không xác định';
+    }
+
+    function suggestRecipeImprovements() {
+        new bootstrap.Modal(document.getElementById('suggestRecipeModal')).show();
+    }
+
+    async function submitSuggestRecipe() {
+        const recipeId = document.getElementById('recipeId').value;
+        
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/nutritionist/recipes/${recipeId}/suggestions`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                bootstrap.Modal.getInstance(document.getElementById('suggestRecipeModal')).hide();
+                displayRecipeSuggestions(data);
+            } else {
+                showAlert(data.error || 'Gợi ý thất bại!', 'danger');
+            }
+        } catch (error) {
+            showAlert('Lỗi kết nối!', 'danger');
+        }
+    }
+
+    function displayRecipeSuggestions(data) {
+        const content = document.getElementById('nutritionistContent');
+        
+        content.innerHTML = `
+            <h5><i class="fas fa-utensils me-2"></i>Gợi ý cải thiện công thức #${data.recipe_id}</h5>
+            <div class="row">
+                ${data.suggestions.map(suggestion => `
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start">
+                                    <i class="fas fa-lightbulb text-${getPriorityColor(suggestion.priority)} me-3 mt-1"></i>
+                                    <div>
+                                        <h6 class="card-title text-capitalize">${suggestion.type}</h6>
+                                        <p class="card-text">${suggestion.message}</p>
+                                        <span class="badge bg-${getPriorityColor(suggestion.priority)}">
+                                            ${getPriorityText(suggestion.priority)}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                Tổng cộng có <strong>${data.total_suggestions}</strong> gợi ý cải thiện cho công thức này.
+            </div>
+        `;
+    }
+
+    function getPriorityColor(priority) {
+        const colors = {
+            'high': 'danger',
+            'medium': 'warning',
+            'low': 'info'
+        };
+        return colors[priority] || 'secondary';
+    }
+
+    function getPriorityText(priority) {
+        const texts = {
+            'high': 'Ưu tiên cao',
+            'medium': 'Ưu tiên trung bình',
+            'low': 'Ưu tiên thấp'
+        };
+        return texts[priority] || 'Không xác định';
+    }
+
+    function createNutritionPlan() {
+        showAlert('Tạo kế hoạch dinh dưỡng - Tính năng đang phát triển!', 'info');
+    }
+
+    // Show alert function
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+        alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 1050; min-width: 300px;';
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        document.body.appendChild(alertDiv);
+        
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.parentNode.removeChild(alertDiv);
+            }
+        }, 5000);
+    }
+</script>
+{% endblock %}

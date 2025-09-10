@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-4">
+            <i class="fas fa-utensils me-3"></i>Eat Today
+        </h1>
+        <p class="lead mb-4">Ứng dụng Lên Kế Hoạch Bữa Ăn Gia Đình Thông Minh</p>
+        <p class="mb-4">Hỗ trợ quản lý nguyên liệu, công thức nấu ăn, lập kế hoạch bữa ăn và tạo danh sách mua sắm</p>
+        <a href="/login" class="btn btn-light btn-lg me-3">
+            <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập
+        </a>
+        <a href="/recipes" class="btn btn-outline-light btn-lg">
+            <i class="fas fa-book me-2"></i>Xem công thức
+        </a>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Tính năng chính</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-book-open text-primary mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title">Quản lý công thức</h5>
+                        <p class="card-text">Lưu trữ và quản lý các công thức nấu ăn yêu thích của gia đình</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-calendar-alt text-success mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title">Lập kế hoạch bữa ăn</h5>
+                        <p class="card-text">Tạo kế hoạch bữa ăn hàng ngày, tuần với gợi ý thông minh</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card feature-card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-shopping-cart text-warning mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="card-title">Danh sách mua sắm</h5>
+                        <p class="card-text">Tự động tạo danh sách mua sắm từ kế hoạch bữa ăn</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Actors Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Các tác nhân trong hệ thống</h2>
+        <div class="row">
+            <!-- Guest -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="actor-card text-center">
+                    <i class="fas fa-user actor-icon guest"></i>
+                    <h4>Guest (Khách vãng lai)</h4>
+                    <p class="text-muted">Xem công thức công khai, tìm kiếm món ăn, đăng ký tài khoản</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Xem công thức</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Tìm kiếm món ăn</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Đăng ký tài khoản</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- User -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="actor-card text-center">
+                    <i class="fas fa-users actor-icon user"></i>
+                    <h4>User (Người dùng)</h4>
+                    <p class="text-muted">Quản lý tài khoản, lập kế hoạch bữa ăn, theo dõi dinh dưỡng</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Quản lý profile</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Lập kế hoạch bữa ăn</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Theo dõi dinh dưỡng</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Admin -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="actor-card text-center">
+                    <i class="fas fa-crown actor-icon admin"></i>
+                    <h4>Admin (Quản trị viên)</h4>
+                    <p class="text-muted">Quản lý hệ thống, người dùng, công thức và dữ liệu</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Quản lý người dùng</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Phê duyệt công thức</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Thống kê hệ thống</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Nutritionist -->
+            <div class="col-lg-6 col-md-6 mb-4">
+                <div class="actor-card text-center">
+                    <i class="fas fa-heartbeat actor-icon nutritionist"></i>
+                    <h4>Nutritionist (Chuyên gia dinh dưỡng)</h4>
+                    <p class="text-muted">Phân tích dinh dưỡng, gợi ý cải thiện công thức, tư vấn chế độ ăn</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Phân tích dinh dưỡng</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Gợi ý cải thiện</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Tư vấn chế độ ăn</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Planner -->
+            <div class="col-lg-6 col-md-6 mb-4">
+                <div class="actor-card text-center">
+                    <i class="fas fa-calendar-check actor-icon planner"></i>
+                    <h4>Planner (Người lập kế hoạch)</h4>
+                    <p class="text-muted">Tạo kế hoạch tuần, gợi ý công thức, tối ưu hóa và chia sẻ kế hoạch</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Kế hoạch tuần</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Gợi ý công thức</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Tối ưu hóa kế hoạch</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Test Accounts Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Tài khoản test</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center mb-4">
+                            <i class="fas fa-key me-2"></i>Thông tin đăng nhập test
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center p-3 border rounded">
+                                    <i class="fas fa-crown text-danger me-3" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <strong>Admin</strong><br>
+                                        <small class="text-muted">admin / admin123</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center p-3 border rounded">
+                                    <i class="fas fa-heartbeat text-warning me-3" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <strong>Nutritionist</strong><br>
+                                        <small class="text-muted">nutritionist1 / nutrition123</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center p-3 border rounded">
+                                    <i class="fas fa-calendar-check text-purple me-3" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <strong>Planner</strong><br>
+                                        <small class="text-muted">planner1 / planner123</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex align-items-center p-3 border rounded">
+                                    <i class="fas fa-users text-primary me-3" style="font-size: 1.5rem;"></i>
+                                    <div>
+                                        <strong>User</strong><br>
+                                        <small class="text-muted">user1 / user123</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <a href="/login" class="btn btn-primary btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>Đăng nhập ngay
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

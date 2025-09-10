@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard User - Eat Today{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-users text-primary me-3"></i>Dashboard User
+            </h1>
+            <p class="text-muted">Chào mừng bạn đến với hệ thống quản lý bữa ăn gia đình</p>
+        </div>
+    </div>
+
+    <!-- User Info Card -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-user me-2"></i>Thông tin cá nhân
+                    </h5>
+                    <div id="userInfo">
+                        <!-- User info will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-chart-pie me-2"></i>Thống kê
+                    </h5>
+                    <div id="userStats">
+                        <!-- Stats will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-bolt me-2"></i>Thao tác nhanh
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-success w-100" onclick="createMealPlan()">
+                                <i class="fas fa-plus me-2"></i>Tạo kế hoạch bữa ăn
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-primary w-100" onclick="viewMealPlans()">
+                                <i class="fas fa-calendar me-2"></i>Xem kế hoạch
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-warning w-100" onclick="viewRecipes()">
+                                <i class="fas fa-book me-2"></i>Xem công thức
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-info w-100" onclick="updateProfile()">
+                                <i class="fas fa-edit me-2"></i>Cập nhật profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meal Plans Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-calendar-alt me-2"></i>Kế hoạch bữa ăn gần đây
+                    </h5>
+                    <div id="mealPlansContainer">
+                        <!-- Meal plans will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Meal Plan Modal -->
+<div class="modal fade" id="createMealPlanModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tạo kế hoạch bữa ăn mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createMealPlanForm">
+                    <div class="mb-3">
+                        <label for="planDate" class="form-label">Ngày lập kế hoạch</label>
+                        <input type="date" class="form-control" id="planDate" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success" onclick="submitCreateMealPlan()">Tạo kế hoạch</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Load user dashboard data
+    document.addEventListener('DOMContentLoaded', function() {
+        loadUserInfo();
+        loadUserMealPlans();
+    });
+
+    // Load user info
+    async function loadUserInfo() {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/user/profile', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                const user = data.user;
+                document.getElementById('userInfo').innerHTML = `
+                    <p><strong>Tên:</strong> ${user.username}</p>
+                    <p><strong>Email:</strong> ${user.email}</p>
+                    <p><strong>Gia đình:</strong> ${user.family_size} người</p>
+                    <p><strong>Ngân sách:</strong> ${user.budget ? user.budget.toLocaleString() + ' VNĐ' : 'Chưa cập nhật'}</p>
+                    <p><strong>Sở thích:</strong> ${user.dietary_preferences ? user.dietary_preferences.join(', ') : 'Chưa cập nhật'}</p>
+                `;
+                
+                document.getElementById('userStats').innerHTML = `
+                    <p><strong>Role:</strong> <span class="badge bg-primary">${user.role}</span></p>
+                    <p><strong>Tham gia:</strong> ${new Date(user.created_at).toLocaleDateString('vi-VN')}</p>
+                `;
+            }
+        } catch (error) {
+            console.error('Error loading user info:', error);
+        }
+    }
+
+    // Load user meal plans
+    async function loadUserMealPlans() {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/user/meal-plans', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                displayMealPlans(data.meal_plans);
+            }
+        } catch (error) {
+            console.error('Error loading meal plans:', error);
+        }
+    }
+
+    // Display meal plans
+    function displayMealPlans(mealPlans) {
+        const container = document.getElementById('mealPlansContainer');
+        
+        if (mealPlans.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-4">
+                    <i class="fas fa-calendar-times text-muted" style="font-size: 3rem;"></i>
+                    <p class="text-muted mt-3">Chưa có kế hoạch bữa ăn nào</p>
+                    <button class="btn btn-success" onclick="createMealPlan()">
+                        <i class="fas fa-plus me-2"></i>Tạo kế hoạch đầu tiên
+                    </button>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = mealPlans.slice(0, 5).map(plan => `
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-3">
+                            <h6 class="mb-0">${new Date(plan.plan_date).toLocaleDateString('vi-VN')}</h6>
+                            <small class="text-muted">${plan.status}</small>
+                        </div>
+                        <div class="col-md-3">
+                            <small class="text-muted">Số bữa ăn:</small><br>
+                            <strong>${plan.meals ? plan.meals.length : 0}</strong>
+                        </div>
+                        <div class="col-md-3">
+                            <small class="text-muted">Chi phí:</small><br>
+                            <strong>${plan.total_cost ? plan.total_cost.toLocaleString() + ' VNĐ' : 'Chưa tính'}</strong>
+                        </div>
+                        <div class="col-md-3 text-end">
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewMealPlanDetail(${plan.id})">
+                                <i class="fas fa-eye me-1"></i>Xem chi tiết
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Create meal plan
+    function createMealPlan() {
+        // Set today's date as default
+        document.getElementById('planDate').value = new Date().toISOString().split('T')[0];
+        new bootstrap.Modal(document.getElementById('createMealPlanModal')).show();
+    }
+
+    // Submit create meal plan
+    async function submitCreateMealPlan() {
+        const planDate = document.getElementById('planDate').value;
+        
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/user/meal-plans', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ plan_date: planDate })
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                bootstrap.Modal.getInstance(document.getElementById('createMealPlanModal')).hide();
+                showAlert('Tạo kế hoạch bữa ăn thành công!', 'success');
+                loadUserMealPlans();
+            } else {
+                showAlert(data.error || 'Tạo kế hoạch thất bại!', 'danger');
+            }
+        } catch (error) {
+            showAlert('Lỗi kết nối!', 'danger');
+        }
+    }
+
+    // Other functions
+    function viewMealPlans() {
+        showAlert('Tính năng đang phát triển!', 'info');
+    }
+
+    function viewRecipes() {
+        window.location.href = '/recipes';
+    }
+
+    function updateProfile() {
+        showAlert('Tính năng đang phát triển!', 'info');
+    }
+
+    function viewMealPlanDetail(planId) {
+        showAlert(`Xem chi tiết kế hoạch ${planId} - Tính năng đang phát triển!`, 'info');
+    }
+
+    // Show alert function
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+        alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 1050; min-width: 300px;';
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        document.body.appendChild(alertDiv);
+        
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.parentNode.removeChild(alertDiv);
+            }
+        }, 5000);
+    }
+</script>
+{% endblock %}

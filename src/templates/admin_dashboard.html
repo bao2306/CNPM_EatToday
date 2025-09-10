@@ -1,0 +1,415 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Admin - Eat Today{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-crown text-danger me-3"></i>Dashboard Admin
+            </h1>
+            <p class="text-muted">Quản lý hệ thống và người dùng</p>
+        </div>
+    </div>
+
+    <!-- System Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-users fa-2x mb-2"></i>
+                    <h4 id="totalUsers">-</h4>
+                    <p class="mb-0">Tổng người dùng</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-book fa-2x mb-2"></i>
+                    <h4 id="totalRecipes">-</h4>
+                    <p class="mb-0">Tổng công thức</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-leaf fa-2x mb-2"></i>
+                    <h4 id="totalIngredients">-</h4>
+                    <p class="mb-0">Tổng nguyên liệu</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <i class="fas fa-eye fa-2x mb-2"></i>
+                    <h4 id="publicRecipes">-</h4>
+                    <p class="mb-0">Công thức công khai</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-bolt me-2"></i>Thao tác quản trị
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-primary w-100" onclick="viewAllUsers()">
+                                <i class="fas fa-users me-2"></i>Quản lý người dùng
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-success w-100" onclick="viewAllRecipes()">
+                                <i class="fas fa-book me-2"></i>Quản lý công thức
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-warning w-100" onclick="viewAllIngredients()">
+                                <i class="fas fa-leaf me-2"></i>Quản lý nguyên liệu
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="btn btn-info w-100" onclick="viewSystemStats()">
+                                <i class="fas fa-chart-bar me-2"></i>Thống kê hệ thống
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div id="adminContent">
+                        <div class="text-center py-5">
+                            <i class="fas fa-crown text-muted" style="font-size: 4rem;"></i>
+                            <h3 class="text-muted mt-3">Chào mừng Admin!</h3>
+                            <p class="text-muted">Chọn một thao tác ở trên để bắt đầu quản lý hệ thống</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Load admin dashboard data
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSystemStats();
+    });
+
+    // Load system statistics
+    async function loadSystemStats() {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/admin/stats', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                const stats = data.stats;
+                document.getElementById('totalUsers').textContent = stats.total_users;
+                document.getElementById('totalRecipes').textContent = stats.total_recipes;
+                document.getElementById('totalIngredients').textContent = stats.total_ingredients;
+                document.getElementById('publicRecipes').textContent = stats.public_recipes;
+            }
+        } catch (error) {
+            console.error('Error loading system stats:', error);
+        }
+    }
+
+    // Admin functions
+    async function viewAllUsers() {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/admin/users', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                displayUsers(data.users);
+            }
+        } catch (error) {
+            showAlert('Lỗi tải danh sách người dùng!', 'danger');
+        }
+    }
+
+    function displayUsers(users) {
+        const content = document.getElementById('adminContent');
+        content.innerHTML = `
+            <h5><i class="fas fa-users me-2"></i>Danh sách người dùng</h5>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên đăng nhập</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Gia đình</th>
+                            <th>Ngày tạo</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${users.map(user => `
+                            <tr>
+                                <td>${user.id}</td>
+                                <td>${user.username}</td>
+                                <td>${user.email}</td>
+                                <td><span class="badge bg-${getRoleColor(user.role)}">${user.role}</span></td>
+                                <td>${user.family_size} người</td>
+                                <td>${new Date(user.created_at).toLocaleDateString('vi-VN')}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="editUser(${user.id})">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    function getRoleColor(role) {
+        const colors = {
+            'admin': 'danger',
+            'user': 'primary',
+            'nutritionist': 'warning',
+            'planner': 'info'
+        };
+        return colors[role] || 'secondary';
+    }
+
+    async function viewAllRecipes() {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/admin/recipes', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                displayRecipes(data.recipes);
+            }
+        } catch (error) {
+            showAlert('Lỗi tải danh sách công thức!', 'danger');
+        }
+    }
+
+    function displayRecipes(recipes) {
+        const content = document.getElementById('adminContent');
+        content.innerHTML = `
+            <h5><i class="fas fa-book me-2"></i>Danh sách công thức</h5>
+            <div class="row">
+                ${recipes.map(recipe => `
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">${recipe.name}</h6>
+                                <p class="card-text text-muted">${recipe.description || 'Không có mô tả'}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">
+                                        <span class="badge bg-${recipe.is_public ? 'success' : 'warning'}">
+                                            ${recipe.is_public ? 'Công khai' : 'Riêng tư'}
+                                        </span>
+                                    </small>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-success" onclick="approveRecipe(${recipe.id})">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteRecipe(${recipe.id})">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    async function viewAllIngredients() {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/admin/ingredients', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                displayIngredients(data.ingredients);
+            }
+        } catch (error) {
+            showAlert('Lỗi tải danh sách nguyên liệu!', 'danger');
+        }
+    }
+
+    function displayIngredients(ingredients) {
+        const content = document.getElementById('adminContent');
+        content.innerHTML = `
+            <h5><i class="fas fa-leaf me-2"></i>Danh sách nguyên liệu</h5>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>Danh mục</th>
+                            <th>Đơn vị</th>
+                            <th>Calories/100g</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${ingredients.map(ingredient => `
+                            <tr>
+                                <td>${ingredient.id}</td>
+                                <td>${ingredient.name}</td>
+                                <td><span class="badge bg-info">${ingredient.category}</span></td>
+                                <td>${ingredient.unit}</td>
+                                <td>${ingredient.nutrition_per_100g?.calories || 0}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    function viewSystemStats() {
+        const content = document.getElementById('adminContent');
+        content.innerHTML = `
+            <h5><i class="fas fa-chart-bar me-2"></i>Thống kê hệ thống</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">Thống kê người dùng</h6>
+                            <p><strong>Tổng người dùng:</strong> <span id="totalUsers">-</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">Thống kê công thức</h6>
+                            <p><strong>Tổng công thức:</strong> <span id="totalRecipes">-</span></p>
+                            <p><strong>Công thức công khai:</strong> <span id="publicRecipes">-</span></p>
+                            <p><strong>Công thức riêng tư:</strong> <span id="privateRecipes">-</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        loadSystemStats();
+    }
+
+    // Admin actions
+    async function approveRecipe(recipeId) {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`/api/admin/recipes/${recipeId}/approve`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                showAlert('Phê duyệt công thức thành công!', 'success');
+                viewAllRecipes();
+            } else {
+                showAlert(data.error || 'Phê duyệt thất bại!', 'danger');
+            }
+        } catch (error) {
+            showAlert('Lỗi kết nối!', 'danger');
+        }
+    }
+
+    async function deleteRecipe(recipeId) {
+        if (confirm('Bạn có chắc muốn xóa công thức này?')) {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`/api/admin/recipes/${recipeId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showAlert('Xóa công thức thành công!', 'success');
+                    viewAllRecipes();
+                } else {
+                    showAlert(data.error || 'Xóa thất bại!', 'danger');
+                }
+            } catch (error) {
+                showAlert('Lỗi kết nối!', 'danger');
+            }
+        }
+    }
+
+    function editUser(userId) {
+        showAlert(`Chỉnh sửa người dùng ${userId} - Tính năng đang phát triển!`, 'info');
+    }
+
+    function deleteUser(userId) {
+        if (confirm('Bạn có chắc muốn xóa người dùng này?')) {
+            showAlert(`Xóa người dùng ${userId} - Tính năng đang phát triển!`, 'info');
+        }
+    }
+
+    // Show alert function
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+        alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 1050; min-width: 300px;';
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        document.body.appendChild(alertDiv);
+        
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.parentNode.removeChild(alertDiv);
+            }
+        }, 5000);
+    }
+</script>
+{% endblock %}
