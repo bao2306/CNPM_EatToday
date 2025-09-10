@@ -7,10 +7,10 @@ from fastapi.staticfiles import StaticFiles
 
 app = FastAPI(title="EatToday Backend API")
 
-# Tạo bảng trong DB
+
 models.Base.metadata.create_all(bind=database.engine)
 
-# Dependency lấy DB session
+
 def get_db():
     db = database.SessionLocal()
     try:
@@ -18,7 +18,6 @@ def get_db():
     finally:
         db.close()
 
-# ---------------- Routes ----------------
 
 @app.get("/api")
 def root():
@@ -56,5 +55,5 @@ def get_history(user_id: int, db: Session = Depends(get_db)):
     history = crud.get_history(db, user_id)
     return [{"recipe_id": h.recipe_id} for h in history]
 
-# ---------------- Serve Frontend ----------------
+
 app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
