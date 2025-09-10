@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
 
-# -------------------- User --------------------
+
 def create_user(db: Session, user: schemas.UserCreate):
     db_user = db.query(models.User).filter(models.User.username == user.username).first()
     if db_user:
@@ -22,7 +22,7 @@ def login_user(db: Session, user: schemas.UserLogin):
         models.User.password == user.password
     ).first()
 
-# -------------------- Recipe --------------------
+
 def create_recipe(db: Session, recipe: schemas.RecipeCreate):
     new_recipe = models.Recipe(
         name=recipe.name,
@@ -37,7 +37,7 @@ def create_recipe(db: Session, recipe: schemas.RecipeCreate):
 def get_recipes(db: Session):
     return db.query(models.Recipe).all()
 
-# -------------------- History --------------------
+
 def add_history(db: Session, user_id: int, recipe_id: int):
     history = models.History(user_id=user_id, recipe_id=recipe_id)
     db.add(history)
